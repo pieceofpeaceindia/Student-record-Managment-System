@@ -1,0 +1,134 @@
+/*
+Theme Name: StudentManagmentSystem
+Author: Vivek Kumar Gupta
+*/
+
+body{
+clear: both;
+font-family: "Itim", sans-serif;
+}
+.maindivtext{
+	font-family: 'Itim', cursive;
+	font-size: 21px;
+	font-weight: lighter;
+	line-height: 25px;
+}
+.maindivtext{
+	padding-top: 10px;
+	padding-right:10px; 
+	padding-left:10px;
+}
+
+.site_footer{
+	/*text-align: center;*/
+	background: linear-gradient(45deg, #1de099, #1dc8cd);
+	padding-top: 25px;
+	bottom: 0;
+}
+.maintext{
+	font-family: 'Nunito', sans-serif;
+}
+
+.main_div{
+	text-align: center;
+    margin: 30px 0 10px 0;
+    padding: 0 15px;
+    font-size: 40px;
+    font-weight: lighter;
+    line-height: 56px;
+    color: teal;
+    padding-top: 60px;
+/*	color: white;
+	background-color: #123;*/
+}
+
+.footertext{
+	padding-right: 10px;
+	padding-left: 10px;
+	padding-top: 15px;
+	color:ghostwhite;
+}
+
+#addmarksbutton, #attendancebutton, #feedsubmit, #addstudentbutton, #addfacultybutton, #viewattendancebutton, #viewmarksbutton, #percentagefilterbutton, #datefilterbutton{
+	border: 0;
+    border-radius: 20px;
+    padding: 8px 30px;
+    background-color: teal;
+    color: ghostwhite;
+}
+
+.iconsixe{
+	font-size: 30px;
+}
+
+.sectiondivider{
+	display: block;
+    width: 110px;
+    height: 3px;
+    background: #1dc8cd;
+    background: linear-gradient(0deg, #1dc8cd 0%, #55fabe 100%);
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+.foocoltext{
+	font-size: 20px;
+}
+
+.modalstyle{
+	background-color: ghostwhite;	
+}
+
+.admin_main_div{
+	text-align: center;
+    margin: 30px 0 10px 0;
+    padding: 0 15px;
+    color: teal;
+    padding-top: 50px;
+}
+
+#addmarksbutton:hover, #attendancebutton:hover, #percentagefilterbutton:hover, #datefilterbutton:hover ,#viewattendancebutton:hover, #viewmarksbutton:hover, .viewrecords:hover, .addfaculty:hover, .addstudent:hover, #feedsubmit:hover, #addstudentbutton:hover, #addfacultybutton:hover , .viewrecords:hover{
+	cursor: pointer;
+}
+
+#facultypagediv, #addstudentdiv, #addfacultydiv, #viewrecordsdiv{
+	background: linear-gradient(45deg, #1de099, #1dc8cd);
+}
+
+.facultypage{
+	margin-top: 40px;
+}
+#facultypagediv{
+	margin-top: 20px;
+}
+.footer_faculty{
+padding-bottom: 0px;
+margin-bottom: 0px;
+}
+
+.lastdiv{
+	margin-top: 20px;
+}
+
+@media screen {
+    #printSection {
+        display: none;
+    }
+}
+@media print {
+    body * {
+        visibility:hidden;
+    }
+    #printSection, #printSection * {
+        visibility:visible;
+    }
+    #printSection {
+        position:absolute;
+        left:0;
+        top:0;
+    }
+}
+
+#footer{
+	text-align:center;
+	bottom: 0;
+}
