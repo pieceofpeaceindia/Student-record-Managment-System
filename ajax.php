@@ -6,6 +6,9 @@
 			case 'selectinput':
 				changeselectinput();
 				break;
+			case 'addstudent' :
+				addstudent();
+				break;
 			default:
 				echo "<h3 class='alert alert-danger'>Something went wrong</h3>";
 				break;

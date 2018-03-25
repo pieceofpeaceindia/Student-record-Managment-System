@@ -38,4 +38,21 @@
 		echo $output;
 	}
 
+	function addstudent(){
+		global $conn;
+		$output ='';
+		$name =mysqli_real_escape_string($conn,$_POST["studentname"]);
+		$year = mysqli_real_escape_string($conn, $_POST["studentyear"]);
+		$branch = mysqli_real_escape_string($conn , $_POST["studentbranch"]);
+		$rollno = mysqli_real_escape_string($conn, $_POST["studentrollno"]);
+		$addstudentquery = "INSERT INTO studentdetails(rollno, nameofstudent, studentbranch, studentyear)
+					VALUES('$rollno','$name','$branch','$year')";
+		if (mysqli_query($conn,$addstudentquery)){
+			$output .='<p class="text-success"><br>Student Details Added Successfully</p>';
+		}else{
+			// $output .='<p class="text-danger"><br>Something went wrong</p>';
+			$output .= mysqli_error($conn);
+		}
+		echo $output;
+	}
 ?>

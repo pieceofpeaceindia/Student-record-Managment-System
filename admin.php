@@ -17,7 +17,7 @@
 <body style="background-color:aliceblue;">
 	<header class="fixed-top">
 		<nav class="navbar navbar-expand-lg navbar-light" style="background: linear-gradient(45deg, #1de099, #1dc8cd);">
-  			<a class="navbar-brand" href="#" style="font-family: 'Itim', cursive; font-weight: bold; font-size: 21px;">Student Record Managment System</a>
+  			<a class="navbar-brand" href="#" style="font-family: 'Itim', cursive; font-weight: bold; font-size: 20px;">Student Record Managment System</a>
   			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     		<span class="navbar-toggler-icon"></span>
   			</button>
@@ -47,14 +47,16 @@
 					</div>
 				</div>
 				<div id="addstudentdiv" class="collapse show" aria-labelledby="firstdiv" data-parent="#admindiv">
-					<center><br>
+					<center>
+					<div id="addstudenterror" class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">	
+			      	</div>
 			      	<form id="addstudentform">
 			      		<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">
 			      			<input class="form-control" type="text" name="studentname" id="studentname" placeholder="Student Name">
 			      		</div>
 			      		<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">
 			      			<select class="custom-select" name="studentyear" id="studentyear">
-							  	<option selected>Select Year</option>
+							  	<option value="default" selected>Select Year</option>
 							  	<option value="First">First</option>
 							  	<option value="Second">Second</option>
 							  	<option value="Third">Third</option>
@@ -63,7 +65,7 @@
 			      		</div>
 			      		<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">
 			      			<select class="custom-select" name="studentbranch" id="studentbranch">
-							  	<option selected>Select Branch</option>
+							  	<option value="default" selected>Select Branch</option>
 							  	<option value="CSE">CSE</option>
 							  	<option value="ECE">ECE</option>
 							  	<option value="EE">EE</option>
@@ -93,7 +95,8 @@
 				</div>
 				<div id="addfacultydiv" class="collapse" aria-labelledby="seconddiv" data-parent="#admindiv">
 					<center>
-						<br>
+					<div id="addfaclultyerror" class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">	
+			      	</div>
 				      	<form id="addfacultyform">
 				      		<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">
 				      			<input class="form-control" type="text" name="facultyname" id="facultyname" placeholder="Faculty Name">
@@ -123,7 +126,8 @@
 				</div>
 				<div id="viewrecordsdiv" class="collapse" aria-labelledby="thirddiv" data-parent="#admindiv">
 					<center>
-						<br>
+					<div id="viewrecorderror" class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">	
+			      	</div>
 				      	<form id="viewrecordform">
 				      		<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">
 				      			<select class="custom-select" name="recordyear" id="recordyear">

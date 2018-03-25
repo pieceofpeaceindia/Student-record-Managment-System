@@ -1,5 +1,6 @@
 $(document).ready(function(){
 	console.log("no prblem in jquery");
+	$('#addstudenterror').html('');
 	$("#facultyloginbutton").click(function(){
 		var facultyform =$("#facultyloginform");
 		if(!facultyform[0].checkValidity()){
@@ -19,6 +20,34 @@ $(document).ready(function(){
 			}
 		});			
 	});
+
+	$('#addstudentbutton').click(function(){
+		$('#addstudenterror').html('');
+		var studentname =$('#studentname').val();
+		var studentyear =$('#studentyear').val();
+		var studentbranch =$('#studentbranch').val();
+		var studentrollno =$('#studentrollno').val();
+		// console.log(studentname+studentyear+studentbranch+studentrollno);
+		if(studentname =='' || studentyear =='default' || studentrollno =='' || studentbranch =='default'){
+			$('#addstudenterror').html('<br><p class="text-danger">All fields are mandetory</p>');
+			return;
+		}
+		var dataString = 'action=addstudent&' + $("#addstudentform").serialize();
+		$.ajax({
+			type:"POST",
+			url:"ajax.php",
+			data: dataString,
+			success:function(result){
+				$('#addstudenterror').html(result);
+				document.getElementById('addstudentform').reset();
+				window.setTimeout(givedealy, 2000);
+				function givedealy(){
+					$('#addstudenterror').html('');
+				}
+			}
+		});
+	});
+
 	$("#adminloginbutton").click(function(){
 		var adminform =$("#adminloginform");
 		if(!adminform[0].checkValidity()){
@@ -107,6 +136,10 @@ $("#attendancesem").html('<option selected>Select Semester</option><option value
 	$("#attendancebutton").click(function(){
 		var dataString = 'action=adminlogin&' + $("#facultypageform").serialize();
 		console.log(dataString);
+	});
+
+	$('#viewattendancebutton').click(function(){
+		var dataString ='action=showstudentdetails' + $("#viewrecordform").serialize();
 	});
 
 });  
