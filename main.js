@@ -67,9 +67,29 @@ $(document).ready(function(){
 	    window.print();
 	}
 
+	$("#attendanceyear").on("change",function(){
+		var year =$("#attendanceyear").val();
+		if(year =="First"){
+			console.log("First year")
+$("#attendancesem").html('<option selected>Select Semester</option><option value="First">First</option><option value="Second">Second</option>');
+		}else{
+			if(year =="Second"){
+$("#attendancesem").html('<option selected>Select Semester</option><option value="Third">Third</option><option value="Fourth">Fourth</option>');
+			}else{
+				if(year =="Third"){
+$("#attendancesem").html('<option selected>Select Semester</option><option value="Fifth">Fifth</option><option value="Sixth">Sixth</option>');
+				}else{
+					if(year =="Fourth"){
+$("#attendancesem").html('<option selected>Select Semester</option><option value="Seventh">Seventh</option><option value="Eighth">Eighth</option>');
+					}
+				}				
+			}
+		}
+	});
+
 	$("#attendancebranch").on("change",function(){
-		var year = $("#attendancebranch").val();
-		var branch =$("#attendanceyear").val();
+		var branch = $("#attendancebranch").val();
+		var year =$("#attendanceyear").val();
 		var sem =$("#attendancesem").val();
 		var dataString = 'action=selectinput&'+'year='+year+'&branch='+branch+'&sem='+sem;
 		console.log(dataString);
@@ -79,9 +99,14 @@ $(document).ready(function(){
 			data : dataString,
 			success : function(result){
 				console.log(result);
-				$("#size").html(result);
+				$("#attendancesubject").html(result);
 			}
 		});
+	});
+
+	$("#attendancebutton").click(function(){
+		var dataString = 'action=adminlogin&' + $("#facultypageform").serialize();
+		console.log(dataString);
 	});
 
 });  

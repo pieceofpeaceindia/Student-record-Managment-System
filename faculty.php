@@ -65,10 +65,10 @@
 			      				<option value="Second">Second</option>
 			      				<option value="Third">Third</option>
 			      				<option value="Fourth">Fourth</option>
-			      				<option value="Fifth">Select Branch</option>
-			      				<option value="Sixth">Select Branch</option>
-			      				<option value="Seventh">Select Branch</option>
-			      				<option value="Eighth">Select Branch</option>
+			      				<option value="Fifth">Fifth</option>
+			      				<option value="Sixth">Sixth</option>
+			      				<option value="Seventh">Seventh</option>
+			      				<option value="Eighth">Eighth</option>
 			      			</select>
 			      		</div>
 			      		<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">
