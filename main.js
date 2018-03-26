@@ -1,5 +1,6 @@
 $(document).ready(function(){
 	console.log("no prblem in jquery");
+	getfeedback();
 	$('#addstudenterror').html('');
 	$("#facultyloginbutton").click(function(){
 		var facultyform =$("#facultyloginform");
@@ -30,6 +31,20 @@ $(document).ready(function(){
 		// console.log(studentname+studentyear+studentbranch+studentrollno);
 		if(studentname =='' || studentyear =='default' || studentrollno =='' || studentbranch =='default'){
 			$('#addstudenterror').html('<br><p class="text-danger">All fields are mandetory</p>');
+			var studentform =$("#addstudentform");
+			if(!studentform[0].checkValidity()){
+				studentform[0].reportValidity();
+				return;
+			}
+			window.setTimeout(givedealy, 2000);
+			function givedealy(){
+				$('#addstudenterror').html('');
+			}
+			return;
+		}
+		var studentform =$("#addstudentform");
+		if(!studentform[0].checkValidity()){
+			studentform[0].reportValidity();
 			return;
 		}
 		var dataString = 'action=addstudent&' + $("#addstudentform").serialize();
@@ -46,6 +61,47 @@ $(document).ready(function(){
 				}
 			}
 		});
+	});
+
+	$("#addfacultybutton").click(function(){
+		$('#addfacultyerror').html('');
+		var facultyname =$('#facultyname').val();
+		var facultyemailid =$('#facultyemailid').val();
+		var facultyid =$('#facultyid').val();
+		var password =$('#facultyassignpassword').val();
+		if (facultyname=='' || facultyemailid =='' || facultyid=='' || password =='') {
+			$('#addfacultyerror').html('<br><p class="text-danger">All fields are mandetory</p>');
+			var facultyform =$("#addfacultyform");
+			if(!facultyform[0].checkValidity()){
+				facultyform[0].reportValidity();
+				return;
+			}
+			window.setTimeout(givedealy, 2000);
+			function givedealy(){
+				$('#addfacultyerror').html('');
+			}	
+			return;
+		}
+		var facultyform =$("#addfacultyform");
+		if(!facultyform[0].checkValidity()){
+			facultyform[0].reportValidity();
+			return;
+		}
+		var dataString = 'action=addfaculty&' + $('#addfacultyform').serialize();
+		$.ajax({
+			type:"POST",
+			url:"ajax.php",
+			data : dataString,
+			success:function(result){
+				console.log(result);
+				$('#addfacultyerror').html(result);
+				document.getElementById('addfacultyform').reset();
+				window.setTimeout(givedealy, 2000);
+				function givedealy(){
+					$('#addfacultyerror').html('');
+				}
+			}
+		})
 	});
 
 	$("#adminloginbutton").click(function(){
@@ -68,17 +124,6 @@ $(document).ready(function(){
 	$(".viewrecords").click(function(){
 		// location.href="viewrecords.php";
 	});
-
-	// $("#printstatus").click(function(){
-	// 	window.print();
-	// });
-	
-	document.getElementById("printstatus").onclick = function () {
-		printElement(document.getElementById("attendancediv"));
-	};
-	document.getElementById("printmarksstatus").onclick = function () {
-		printElement(document.getElementById("marksdiv"));
-	};
 
 	function printElement(elem) {
 		var domClone = elem.cloneNode(true);
@@ -142,4 +187,41 @@ $("#attendancesem").html('<option selected>Select Semester</option><option value
 		var dataString ='action=showstudentdetails' + $("#viewrecordform").serialize();
 	});
 
+	$("#feedsubmit").click(function(){
+		var feedform= $("#feedbackform");
+		if(!feedform[0].checkValidity()){
+		feedform[0].reportValidity();
+		return;
+		}
+		var feedback ="action=feedback&"+ $("#feedbackform").serialize();
+		$.ajax({
+			type:"POST",
+			url:"ajax.php",
+			data: feedback,
+			success:function(result){
+				alert(result);
+				document.getElementById("feedbackform").reset();
+			}
+		});
+	});
+
+	function getfeedback(){
+		var action = "showmsgs";
+		$.ajax({
+			type:"POST",
+			url:"ajax.php",
+			data: {action:action},
+			success:function(result){
+				// console.log(result);
+				document.getElementById("feedbacks").innerHTML=result;
+			}
+		});
+	}
+
+	document.getElementById("printstatus").onclick = function () {
+		printElement(document.getElementById("attendancediv"));
+	};
+	document.getElementById("printmarksstatus").onclick = function () {
+		printElement(document.getElementById("marksdiv"));
+	};
 });  

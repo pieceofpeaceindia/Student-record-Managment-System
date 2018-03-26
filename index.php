@@ -85,17 +85,17 @@
 					<form id="feedbackform">
 						<div class="form-row">
 							<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">
-								<input class="form-control" type="text" name="feedname" id="feedname" placeholder="Your Name">
+								<input class="form-control" type="text" name="feedname" id="feedname" placeholder="Your Name" required>
 							</div>
 							<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">
-								<input class="form-control" type="email" name="feedemail" id="feedeamil" placeholder="Your Email">
+								<input class="form-control" type="email" name="feedemail" id="feedeamil" placeholder="Your Email" required>
 							</div>							
 						</div>
 						<div class="form-group">
-							<input class="form-control" type="text" name="feedsubject" id="feedsubject" placeholder="Subject">	
+							<input class="form-control" type="text" name="feedsubject" id="feedsubject" placeholder="Subject" required>	
 						</div>
 						<div class="form-group">
-							<textarea class="form-control" rows="2" placeholder="Message"></textarea>
+							<textarea class="form-control" rows="2" placeholder="Message" id="feedbackmsg" name="feedbackmsg" required></textarea>
 						</div>
 					</form>
 					<center>

@@ -24,7 +24,7 @@
 		  	<div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
 			    <ul class="nav justify-content-end" style="padding-right: 100px;font-family: 'Itim', cursive; font-size: 20px;">
 			      	<li class="nav-item active">
-			        	<a class="nav-link" href="#facultylogin" style="color: #fff;" data-toggle="modal">Edit<span class="sr-only">(current)</span></a>
+			        	<a class="nav-link" href="#adminsettings" style="color: #fff;" data-toggle="modal">Settings<span class="sr-only">(current)</span></a>
 			      	</li>
 			      	<li class="nav-item">
 			       		<a class="nav-link" href="#adminlogin" style="color: #fff;" data-toggle="modal">Logout</a>
@@ -52,10 +52,10 @@
 			      	</div>
 			      	<form id="addstudentform">
 			      		<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">
-			      			<input class="form-control" type="text" name="studentname" id="studentname" placeholder="Student Name">
+			      			<input class="form-control" type="text" name="studentname" id="studentname" placeholder="Student Name" required>
 			      		</div>
 			      		<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">
-			      			<select class="custom-select" name="studentyear" id="studentyear">
+			      			<select class="custom-select" name="studentyear" id="studentyear" required>
 							  	<option value="default" selected>Select Year</option>
 							  	<option value="First">First</option>
 							  	<option value="Second">Second</option>
@@ -64,7 +64,7 @@
 							</select>
 			      		</div>
 			      		<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">
-			      			<select class="custom-select" name="studentbranch" id="studentbranch">
+			      			<select class="custom-select" name="studentbranch" id="studentbranch" required>
 							  	<option value="default" selected>Select Branch</option>
 							  	<option value="CSE">CSE</option>
 							  	<option value="ECE">ECE</option>
@@ -74,7 +74,7 @@
 							</select>
 			      		</div>
 			      		<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">
-			      			<input class="form-control" type="number" name="studentrollno" id="studentrollno" placeholder="Student Roll Number" max="80">
+			      			<input class="form-control" type="number" name="studentrollno" id="studentrollno" placeholder="Student Roll Number" required>
 			      		</div>
 			      	</form>
 			      	<button type="submit" title="Add Student" id="addstudentbutton" name="addstudentbutton">Add Student</button>
@@ -95,17 +95,20 @@
 				</div>
 				<div id="addfacultydiv" class="collapse" aria-labelledby="seconddiv" data-parent="#admindiv">
 					<center>
-					<div id="addfaclultyerror" class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">	
+					<div id="addfacultyerror" class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">	
 			      	</div>
 				      	<form id="addfacultyform">
 				      		<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">
-				      			<input class="form-control" type="text" name="facultyname" id="facultyname" placeholder="Faculty Name">
+				      			<input class="form-control" type="text" name="facultyname" id="facultyname" placeholder="Faculty Name" required>
 				      		</div>
 				      		<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">
-				      			<input class="form-control" type="text" name="facultyid" id="facultyid" placeholder="Assign User Id">
+				      			<input class="form-control" type="email" name="facultyemailid" id="facultyemailid" placeholder="Faculty Email Id" required>
 				      		</div>
 				      		<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">
-				      			<input class="form-control" type="password" name="facultyassignpassword" id="facultyassignpassword" placeholder="Assign Password">
+				      			<input class="form-control" type="text" name="facultyid" id="facultyid" placeholder="Assign User Id" required>
+				      		</div>
+				      		<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">
+				      			<input class="form-control" type="password" name="facultyassignpassword" id="facultyassignpassword" placeholder="Assign Password" required>
 				      		</div>
 				      	</form>
 				      	<button type="submit" title="Add Faculty" id="addfacultybutton" name="addfacultybutton">Add Faculty</button>
@@ -179,31 +182,58 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="facultylogin" tabindex="-1" role="dialog" aria-labelledby="facultyloginTitle" aria-hidden="true" style="background: linear-gradient(45deg, #1de099, #1dc8cd);">
- 	<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal fade" id="adminsettings" tabindex="-1" role="dialog" aria-labelledby="adminsettingsTitle" aria-hidden="true" style="background: linear-gradient(45deg, #1de099, #1dc8cd);">
+ 	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     	<div class="modal-content">
       		<div class="modal-header  modalstyle">
-	        	<h5 class="modal-title" id="Facultyloginmodaltitle">Faculty Login</h5>
+	        	<h5 class="modal-title" id="adminsettingsmodaltitle">Manage Account</h5>
 	        	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          	<span aria-hidden="true">&times;</span>
 	        	</button>
       		</div>
       		<div class="modal-body">
-        		<form id="facultyloginform">
-        			<div class="form-group">
-        				<input class="form-control" type="text" name="faultyusername" id="faultyusername" placeholder="Your User Name">
-        			</div>
-        			<div class="form-group">
-        				<input class="form-control" type="password" name="facultypassword" id="facultypassword" placeholder="Your Password">
-        			</div>
-        		</form>
-        		<div id="facultyloginalert">
-        			
-        		</div>
+      			<div class="row">
+      				<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+      					<p class="modal-title" style="color: teal; font-size: 20px;">Change Password</p>
+      					<div id="adminchangepassmsg">
+      						
+      					</div>
+      					<br>
+		        		<form id="changeadminpassform">
+		        			<div class="form-group">
+		        				<input class="form-control" type="password" name="adminpreviouspass" id="adminpreviouspass" placeholder="Old Password" required>
+		        			</div>
+		        			<div class="form-group">
+		        				<input class="form-control" type="password" name="adminnewpass" id="adminnewpass" placeholder="New Password" required>
+		        			</div>
+		        		</form>
+		        		<button type="button" class="btn btn-success btn-sm" id="changeadminpass">Change password</button>
+		        		<br><br>
+      				</div>
+      				<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+      					<p class="modal-title" style="color: teal; font-size: 20px;">Last Login Details</p>
+      					<br>
+      					<div id="lastlogin">
+      						
+      					</div>
+      					<br>
+      					<p class="modal-title" style="color: teal; font-size: 20px;">Is acedemic session is end ?</p>
+      					<button type="button" class="btn btn-success btn-sm" id="endofsession">Yes</button>
+      					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      					<button type="button" class="btn btn-success btn-sm" id="noend" data-dismiss="modal">No</button>
+      				</div>
+      			</div>
+      			<div class="row">
+      				<div class="modal-title col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" style="color: teal; font-size: 20px;">Feedbacks / Messeges</div>
+      				<center>
+      				<div data-spy="scroll" class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8" id="feedbacks" data-offset="0">
+      					
+      				</div>
+      				</center>
+      			</div>
       		</div>
       		<div class="modal-footer modalstyle">
         		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        		<button type="button" class="btn btn-success" id="facultyloginbutton">Log In</button>
       		</div>
     	</div>
   	</div>
