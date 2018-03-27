@@ -150,15 +150,15 @@
 				$count_if_exsist=mysqli_num_rows(mysqli_query($conn,$showfeed));
 					if($count_if_exsist>0){
 						$result=mysqli_query($conn,$showfeed);
+						$output .='<br>';
 						while ($row=mysqli_fetch_array($result)) 
 						{
 							$output .='<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-											<br>
 											<p>Name :&nbsp;'.$row["name"].'</p>
 											<p> Messege :&nbsp;'.$row["messege"].'</p>
 											<button type="button" class="btn btn-sm reply" name="reply" value="'.$row["email"].'">Reply</button>
 											<br>
-											<br>
+											<hr>
 									   </div>';
 						}
 					}else{

@@ -86,6 +86,7 @@
 			      				<option selected>Subject</option>
 			      			</select>
 			      		</div>
+			      		<input type="hidden" name="dateofattendance" id="dateofattendance" value="<?php echo date('y-m-d');?>">
 			      	</form>
 			      	<button type="submit" title="Mark Attendance" id="attendancebutton" name="attendancebutton">Mark Attendance</button>&nbsp;&nbsp;
 			      	<button type="submit" title="Add Marks" id="addmarksbutton" name="addmarksbutton">Add Marks</button>

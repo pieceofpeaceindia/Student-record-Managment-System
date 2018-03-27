@@ -132,3 +132,8 @@ margin-bottom: 0px;
 	text-align:center;
 	bottom: 0;
 }
+
+#feedbacks{
+    max-height: 175px;
+    overflow-y: scroll;
+}
