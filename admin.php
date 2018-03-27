@@ -305,7 +305,7 @@
       				<div class="row">
       					<center>
       					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-		      				<form class="form-inline my-2 my-lg-0">
+		      				<form class="form-inline my-2 my-lg-0" id="datefilterform">
 		      					<input class="form-control mr-sm-2" type="date" name="firstdate" id="firstdate" placeholder="Select First Date" required>
 		      					<input class="form-control mr-sm-2" type="date" name="seconddate" id="seconddate" placeholder="Select Second Date" max="<?php echo date("y-m-d");?>" required>
 		      					<button class="btn-sm" type="submit" title="Date Filter" id="datefilterbutton" name="datefilterbutton">Date Filter
@@ -313,7 +313,7 @@
 		      				</form>     						
       					</div>
       					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-		      				<form class="form-inline my-2 my-lg-0">
+		      				<form class="form-inline my-2 my-lg-0" id="precentagefilterform">
 		      					<input class="form-control mr-sm-2" type="number" name="percent" id="percent" placeholder="Select Percentage Threshold" max="100" min="0" required>
 		      					<button class="my-2 my-sm-2 btn-sm" type="submit" title="Percentage Filter" name="percentagefilterbutton" id="percentagefilterbutton">Percentage Filter</button>
 		      				</form>      						
