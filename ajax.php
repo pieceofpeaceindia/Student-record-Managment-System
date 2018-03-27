@@ -28,6 +28,9 @@
 			case 'attendance':
 				getstudents();
 				break;
+			case 'addmarks':
+				addmarks();
+				break;
 			default:
 				echo "<h3 class='alert alert-danger'>Something went wrong</h3>";
 				break;

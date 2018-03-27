@@ -223,4 +223,53 @@
 		}
 		echo $output;
 	}
+
+	function addmarks(){
+		global $conn;
+		$output ='';
+		$year= mysqli_real_escape_string($conn, $_POST["attendanceyear"]);
+		$branch =mysqli_real_escape_string($conn, $_POST["attendancebranch"]);
+		$sem = mysqli_real_escape_string($conn, $_POST["attendancesem"]);
+		$subject = mysqli_real_escape_string($conn, $_POST["attendancesubject"]);
+		$date = mysqli_real_escape_string($conn, $_POST["dateofattendance"]);
+		$getstudentsquery ="SELECT * FROM studentdetails
+							WHERE studentbranch='$branch' AND studentyear='$year' 
+							ORDER BY rollno ASC";
+		// die($getstudentsquery);
+		if(mysqli_query($conn, $getstudentsquery)){
+			if ($conn->connect_error) {
+				$output .="Connection Error : ". $conn->connect_error;
+			}else{
+				$count_if_exsist=mysqli_num_rows(mysqli_query($conn,$getstudentsquery));
+					if($count_if_exsist>0){
+						$result=mysqli_query($conn,$getstudentsquery);
+						$output .='<p class="text-warning">If marks not available please set to zero</p>
+								   	<table class="table table-border">
+								   		<thead class="tablehead">
+								   			<tr>
+								   				<th>Name</th>
+								   				<th>CT 1</th>
+								   				<th>CT 2</th>
+								   				<th>Assignment</th>
+								   			</tr>
+								   		</thead>
+								   		<tbody>';
+						while ($row=mysqli_fetch_array($result)) 
+						{
+						$output .='			<tr>
+												<td>'.$row["nameofstudent"].'</td>
+												<td><input type="number" class="form-control" max="30" min="0"></td>
+												<td><input type="number" class="form-control" max="30" min="0"></td>
+												<td><input type="number" class="form-control" max="10" min="0"></td>
+											</tr>';
+						}
+						$output .='		</tbody>
+									</table>';
+					}else{
+						$output .='<p class="text-primary">Sorry No student details are available<p>';
+					}
+			}
+		}
+		echo $output;	
+	}
 ?>

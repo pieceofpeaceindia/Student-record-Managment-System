@@ -25,6 +25,10 @@ font-family: "Itim", sans-serif;
 	padding-top: 25px;
 	bottom: 0;
 }
+.tablehead{
+    background: linear-gradient(45deg, #1de099, #1dc8cd);
+}
+
 .maintext{
 	font-family: 'Nunito', sans-serif;
 }
@@ -49,7 +53,7 @@ font-family: "Itim", sans-serif;
 	color:ghostwhite;
 }
 
-.reply, #endofsession, #noend, #changeadminpass, #addmarksbutton, #attendancebutton, #feedsubmit, #addstudentbutton, #addfacultybutton, #viewattendancebutton, #viewmarksbutton{
+.reply, .updatemarks, #saveattendance,  #endofsession, #noend, #changeadminpass, #addmarksbutton, #attendancebutton, #feedsubmit, #addstudentbutton, #addfacultybutton, #viewattendancebutton, #viewmarksbutton{
 	border: 0;
     border-radius: 20px;
     padding: 8px 30px;

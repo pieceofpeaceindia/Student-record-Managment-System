@@ -199,8 +199,33 @@ $("#attendancesem").html('<option value="default" selected>Select Semester</opti
 				$("#markattendancemodal").modal('show');
 				$("#getstudentsrollno").html(result);
 			}
-		})
+		});
+	});
 
+	$("#addmarksbutton").click(function(){
+		var year = $("#attendanceyear").val();
+		var sem = $("#attendancesem").val();
+		var branch =$("#attendancebranch").val();
+		var subject =$("#attendancesubject").val();
+		if (year == "default" || sem == "default" || branch =="default" || subject =="default") {
+			$("#attendanceerror").html('<p class="text-danger">Select appropiate option</p>');
+			window.setTimeout(givedealy,2000);
+			function givedealy(){
+				$("#attendanceerror").html('');
+			}
+			return;
+		}
+		$("#addmarksmodaltitle").html(branch+'&nbsp;&nbsp;'+year+'&nbsp;Year&nbsp;&nbsp;'+subject+'&nbsp;marks');
+		var dataString = 'action=addmarks&' + $("#facultypageform").serialize();
+		$.ajax({
+			type:"POST",
+			url:"ajax.php",
+			data:dataString,
+			success:function(result){
+				$("#addmarksmodal").modal('show');
+				$("#addmarksdiv").html(result);
+			}
+		});
 	});
 
 	$('#viewattendancebutton').click(function(){

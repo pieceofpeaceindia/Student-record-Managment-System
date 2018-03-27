@@ -228,31 +228,27 @@
       			</div>
       		</div>
       		<div class="modal-footer modalstyle">
-        		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        		<button type="button" class="btn btn-secondary" id="saveattendance" name="saveattendance">Submit</button>
       		</div>
     	</div>
   	</div>
 </div>
-<div class="modal fade" id="marksmodal" tabindex="-1" role="dialog" aria-labelledby="marksTitle" aria-hidden="true" style="background: linear-gradient(45deg, #1de099, #1dc8cd);">
+<div class="modal fade" id="addmarksmodal" tabindex="-1" role="dialog" aria-labelledby="addmarksTitle" aria-hidden="true" style="background: linear-gradient(45deg, #1de099, #1dc8cd);">
  	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     	<div class="modal-content">
       		<div class="modal-header  modalstyle">
-	        	<h5 class="modal-title" id="marksmodaltitle">Marks Panel</h5>
+	        	<h5 class="modal-title" id="addmarksmodaltitle">Marks Panel</h5>
 	        	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          	<span aria-hidden="true">&times;</span>
 	        	</button>
       		</div>
-      		<div class="modal-body" id="marksdiv">
-      			<h1>Marks Panel</h1>
-      			<p>
-      				Build responsive, mobile-first projects on the web with the world's most popular front-end component library.
-
-					Bootstrap is an open source toolkit for developing with HTML, CSS, and JS. Quickly prototype your ideas or build your entire app with our Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful plugins built on jQuery.
-      			</p>
+      		<div class="modal-body">
+      			<div id="addmarksdiv">
+      				
+      			</div>
       		</div>
       		<div class="modal-footer modalstyle">
         		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        		<button type="button" class="btn btn-success" id="printmarksstatus">Print</button>
       		</div>
     	</div>
   	</div>
