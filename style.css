@@ -49,12 +49,19 @@ font-family: "Itim", sans-serif;
 	color:ghostwhite;
 }
 
-.reply, #endofsession, #noend, #changeadminpass, #addmarksbutton, #attendancebutton, #feedsubmit, #addstudentbutton, #addfacultybutton, #viewattendancebutton, #viewmarksbutton, #percentagefilterbutton, #datefilterbutton{
+.reply, #endofsession, #noend, #changeadminpass, #addmarksbutton, #attendancebutton, #feedsubmit, #addstudentbutton, #addfacultybutton, #viewattendancebutton, #viewmarksbutton{
 	border: 0;
     border-radius: 20px;
     padding: 8px 30px;
     background-color: teal;
     color: ghostwhite;
+}
+#datefilterbutton, #percentagefilterbutton{
+    border: 0;
+    border-radius: 20px;
+    padding: 8px 5px;
+    background-color: teal;
+    color: ghostwhite;    
 }
 
 .iconsixe{
