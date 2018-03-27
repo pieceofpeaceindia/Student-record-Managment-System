@@ -121,9 +121,6 @@ $(document).ready(function(){
 			}
 		});			
 	});
-	$(".viewrecords").click(function(){
-		// location.href="viewrecords.php";
-	});
 
 	function printElement(elem) {
 		var domClone = elem.cloneNode(true);
@@ -144,17 +141,17 @@ $(document).ready(function(){
 	$("#attendanceyear").on("change",function(){
 		var year =$("#attendanceyear").val();
 		if(year =="First"){
-			console.log("First year")
-$("#attendancesem").html('<option selected>Select Semester</option><option value="First">First</option><option value="Second">Second</option>');
+			console.log("First year");
+$("#attendancesem").html('<option value="default" selected>Select Semester</option><option value="First">First</option><option value="Second">Second</option>');
 		}else{
 			if(year =="Second"){
-$("#attendancesem").html('<option selected>Select Semester</option><option value="Third">Third</option><option value="Fourth">Fourth</option>');
+$("#attendancesem").html('<option value="default" selected>Select Semester</option><option value="Third">Third</option><option value="Fourth">Fourth</option>');
 			}else{
 				if(year =="Third"){
-$("#attendancesem").html('<option selected>Select Semester</option><option value="Fifth">Fifth</option><option value="Sixth">Sixth</option>');
+$("#attendancesem").html('<option value="default" selected>Select Semester</option><option value="Fifth">Fifth</option><option value="Sixth">Sixth</option>');
 				}else{
 					if(year =="Fourth"){
-$("#attendancesem").html('<option selected>Select Semester</option><option value="Seventh">Seventh</option><option value="Eighth">Eighth</option>');
+$("#attendancesem").html('<option value="default" selected>Select Semester</option><option value="Seventh">Seventh</option><option value="Eighth">Eighth</option>');
 					}
 				}				
 			}
@@ -179,12 +176,79 @@ $("#attendancesem").html('<option selected>Select Semester</option><option value
 	});
 
 	$("#attendancebutton").click(function(){
-		var dataString = 'action=adminlogin&' + $("#facultypageform").serialize();
-		console.log(dataString);
+		var year = $("#attendanceyear").val();
+		var sem = $("#attendancesem").val();
+		var branch =$("#attendancebranch").val();
+		var subject =$("#attendancesubject").val();
+		if (year == "default" || sem == "default" || branch =="default" || subject =="default") {
+			$("#attendanceerror").html('<p class="text-danger">Select appropiate option</p>');
+			window.setTimeout(givedealy,2000);
+			function givedealy(){
+				$("#attendanceerror").html('');
+			}
+			return;
+		}
+		$("#markattendancemodaltitle").html(branch+'&nbsp;&nbsp;'+year+'&nbsp; Year');
+		var dataString = 'action=attendance&' + $("#facultypageform").serialize();
+		// console.log(dataString);
+		$.ajax({
+			type:"POST",
+			url:"ajax.php",
+			data:dataString,
+			success:function(result){
+				$("#markattendancemodal").modal('show');
+				$("#getstudentsrollno").html(result);
+			}
+		})
+
 	});
 
 	$('#viewattendancebutton').click(function(){
-		var dataString ='action=showstudentdetails' + $("#viewrecordform").serialize();
+		var year = $('#recordyear').val();
+		var branch =$("#recordbranch").val();
+		if (year == 'default' || branch =='default') {
+			$('#viewrecorderror').html('<br><p class="text-danger">Selcet appropiate option</p>');
+			window.setTimeout(givedealy, 2000);
+			function givedealy(){
+				$('#viewrecorderror').html('');
+			}
+			return;
+		}else{
+			$('#attendancemodal').modal('show');
+		}
+		var dataString ='action=showattendance' + $("#viewrecordform").serialize();
+		$.ajax({
+			type:"POST",
+			url:"ajax.php",
+			data:dataString,
+			success:function(result){
+
+			}
+		});
+	});
+
+	$("#viewmarksbutton").click(function(){
+		var year = $('#recordyear').val();
+		var branch =$("#recordbranch").val();
+		if (year == 'default' || branch =='default') {
+			$('#viewrecorderror').html('<br><p class="text-danger">Selcet appropiate option</p>');
+			window.setTimeout(givedealy, 2000);
+			function givedealy(){
+				$('#viewrecorderror').html('');
+			}
+			return;
+		}else{
+			$('#marksmodal').modal('show');
+		}
+		var dataString ='action=showmarks' + $("#viewrecordform").serialize();
+		$.ajax({
+			type:"POST",
+			url:"ajax.php",
+			data:dataString,
+			success:function(result){
+
+			}
+		});
 	});
 
 	$("#feedsubmit").click(function(){

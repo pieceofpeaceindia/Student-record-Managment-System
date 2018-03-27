@@ -68,6 +68,11 @@ font-family: "Itim", sans-serif;
 	font-size: 30px;
 }
 
+.attendancemark{
+    border: 1px solid teal;
+    padding: 5px 5px;
+}
+
 .sectiondivider{
 	display: block;
     width: 110px;

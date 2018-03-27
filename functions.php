@@ -26,6 +26,7 @@
 		}else{
 				if($count_if_exsist>0)
 				{
+					$output .='<option value="default" selected>Select Subject</option>';
 					$result=mysqli_query($conn,$query);
 					while ($row=mysqli_fetch_array($result)) 
 					{
@@ -163,6 +164,60 @@
 						}
 					}else{
 						$output .='<p class="text-primary">No feedback is available<p>';
+					}
+			}
+		}
+		echo $output;
+	}
+
+	function showattendance(){
+
+	}
+
+	function showmarks(){
+
+	}
+
+	function getstudents(){
+		global $conn;
+		$i ='1';
+		$output ='';
+		$year= mysqli_real_escape_string($conn, $_POST["attendanceyear"]);
+		$branch =mysqli_real_escape_string($conn, $_POST["attendancebranch"]);
+		$sem = mysqli_real_escape_string($conn, $_POST["attendancesem"]);
+		$subject = mysqli_real_escape_string($conn, $_POST["attendancesubject"]);
+		$date = mysqli_real_escape_string($conn, $_POST["dateofattendance"]);
+		$getstudentsquery ="SELECT * FROM studentdetails
+							WHERE studentbranch='$branch' AND studentyear='$year' 
+							ORDER BY rollno ASC";
+		// die($getstudentsquery);
+		if(mysqli_query($conn, $getstudentsquery)){
+			if ($conn->connect_error) {
+				$output .="Connection Error : ". $conn->connect_error;
+			}else{
+				$count_if_exsist=mysqli_num_rows(mysqli_query($conn,$getstudentsquery));
+					if($count_if_exsist>0){
+						$result=mysqli_query($conn,$getstudentsquery);
+						$output .='<br>';
+						$output .='<form id="submitattendance" style="color:teal;">
+										<input type="hidden" id="subjectcodeattendance" name="subjectcodeattendance" value="'.$subject.'">
+										<input type="hidden" id="yearattendance" name="yearattendance" value="'.$year.'">
+										<input type="hidden" id="semattendance" name="semattendance" value="'.$sem.'">
+										<input type="hidden" id="branchattendance" name="branchattendance" value="'.$branch.'">
+										<input type="hidden" id="dateattendance" name="dateattendance" value="'.$date.'">
+										<div class="row">
+										';
+						while ($row=mysqli_fetch_array($result)) 
+						{			
+							$output .=	'	<div class="form-check form-check-inline col-xl-5 col-lg-5 col-md-5 col-sm-5 col-12">
+										  		<input class="form-check-input" type="checkbox" name="studentrollnumber" value="'.$row["rollno"].'">
+												<label class="form-check-label" for="inlineCheckbox1">'.$row["nameofstudent"].'</label>
+											</div>';
+						}
+						$output .='		</div>
+									</form>';
+					}else{
+						$output .='<p class="text-primary">Sorry No student details are available<p>';
 					}
 			}
 		}

@@ -48,10 +48,13 @@
 				</div>
 				<div id="facultypagediv" class="container col-lg-8">
 					<center><br>
+					<div id="attendanceerror">
+						
+					</div>
 			      	<form id="facultypageform">
 			      		<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">
 			      			<select class="custom-select" name="attendanceyear" id="attendanceyear">
-							  	<option selected>Select Year</option>
+							  	<option value="default" selected>Select Year</option>
 							  	<option value="First">First</option>
 							  	<option value="Second">Second</option>
 							  	<option value="Third">Third</option>
@@ -60,7 +63,7 @@
 			      		</div>
 			      		<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">
 			      			<select class="custom-select" name="attendancesem" id="attendancesem">
-			      				<option selected>Select Semester</option>
+			      				<option value="default" selected>Select Semester</option>
 			      				<option value="First">First</option>
 			      				<option value="Second">Second</option>
 			      				<option value="Third">Third</option>
@@ -73,7 +76,7 @@
 			      		</div>
 			      		<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">
 			      			<select class="custom-select" name="attendancebranch" id="attendancebranch">
-							  	<option selected>Select Branch</option>
+							  	<option value="default" selected>Select Branch</option>
 							  	<option value="CSE">CSE</option>
 							  	<option value="ECE">ECE</option>
 							  	<option value="EE">EE</option>
@@ -83,7 +86,7 @@
 			      		</div>
 			      		<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12" id="subject_select">
 			      			<select class="custom-select" name="attendancesubject" id="attendancesubject">
-			      				<option selected>Subject</option>
+			      				<option value="default" selected>Subject</option>
 			      			</select>
 			      		</div>
 			      		<input type="hidden" name="dateofattendance" id="dateofattendance" value="<?php echo date('y-m-d');?>">
@@ -210,43 +213,22 @@
     	</div>
   	</div>
 </div>
-<div class="modal fade" id="attendancemodal" tabindex="-1" role="dialog" aria-labelledby="attedanceTitle" aria-hidden="true" style="background: linear-gradient(45deg, #1de099, #1dc8cd);">
+<div class="modal fade" id="markattendancemodal" tabindex="-1" role="dialog" aria-labelledby="markattendanceTitle" aria-hidden="true" style="background: linear-gradient(45deg, #1de099, #1dc8cd);">
  	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     	<div class="modal-content">
       		<div class="modal-header  modalstyle">
-	        	<h5 class="modal-title" id="attedancemodaltitle">Attendance Panel</h5>
+	        	<h5 class="modal-title" id="markattendancemodaltitle"></h5>
 	        	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          	<span aria-hidden="true">&times;</span>
 	        	</button>
       		</div>
       		<div class="modal-body" id="attendancediv">
-      			<div class="form_div" id="attendanceformdiv">
-      				<div class="row">
-      					<center>
-      					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-		      				<form class="form-inline my-2 my-lg-0">
-		      					<input class="form-control mr-sm-2" type="date" name="firstdate" id="firstdate" placeholder="Select First Date">
-		      					<input class="form-control mr-sm-2" type="date" name="seconddate" id="seconddate" placeholder="Select Second Date">
-		      					<button class="my-2 my-sm-0 btn-sm" type="submit" title="Date Filter" id="datefilterbutton" name="datefilterbutton">Date Filter
-						      	</button>
-		      				</form>      						
-      					</div>
-      					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-		      				<form class="form-inline my-2 my-lg-0">
-		      					<input class="form-control mr-sm-2" type="number" name="percent" id="percent" placeholder="Select Percentage Threshold" max="100" min="0">
-		      					<button class="my-2 my-sm-2 btn-sm" type="submit" title="Percentage Filter" name="percentagefilterbutton" id="percentagefilterbutton">Percentage Filter</button>
-		      				</form>      						
-      					</div>
-      					</center>
-      				</div>
-      			</div>
-      			<div class="data_div" id="attendancedatadiv">
-
+      			<div id="getstudentsrollno">
+      				
       			</div>
       		</div>
       		<div class="modal-footer modalstyle">
         		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        		<button type="button" class="btn btn-success" id="printstatus">Print</button>
       		</div>
     	</div>
   	</div>

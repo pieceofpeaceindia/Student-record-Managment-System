@@ -19,6 +19,15 @@
 			case 'showmsgs' :
 				showfeedbacks();
 				break;
+			case 'showattendance':
+				showattendance();
+				break;
+			case 'showmarks':
+				showmarks();
+				break;
+			case 'attendance':
+				getstudents();
+				break;
 			default:
 				echo "<h3 class='alert alert-danger'>Something went wrong</h3>";
 				break;

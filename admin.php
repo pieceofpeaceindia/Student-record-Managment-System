@@ -129,12 +129,12 @@
 				</div>
 				<div id="viewrecordsdiv" class="collapse" aria-labelledby="thirddiv" data-parent="#admindiv">
 					<center>
-					<div id="viewrecorderror" class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">	
-			      	</div>
+						<div id="viewrecorderror" class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">	
+			      		</div>
 				      	<form id="viewrecordform">
 				      		<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">
 				      			<select class="custom-select" name="recordyear" id="recordyear">
-								  	<option selected>Select Year</option>
+								  	<option selected value="default">Select Year</option>
 								  	<option value="First">First</option>
 								  	<option value="Second">Second</option>
 								  	<option value="Third">Third</option>
@@ -143,7 +143,7 @@
 				      		</div>
 				      		<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">
 				      			<select class="custom-select" name="recordbranch" id="recordbranch">
-								  	<option selected>Select Branch</option>
+								  	<option selected value="default">Select Branch</option>
 								  	<option value="CSE">CSE</option>
 								  	<option value="ECE">ECE</option>
 								  	<option value="EE">EE</option>
@@ -152,9 +152,9 @@
 								</select>
 				      		</div>
 				      	</form>
-				      	<button type="submit" title="View Attendance" id="viewattendancebutton" name="viewattendancebutton" data-toggle="modal" data-target="#attendancemodal" >View Attendance
+				      	<button type="submit" title="View Attendance" id="viewattendancebutton" name="viewattendancebutton">View Attendance
 				      	</button>&nbsp;&nbsp;
-				      	<button type="submit" title="View Marks" id="viewmarksbutton" name="viewmarksbutton" data-toggle="modal" data-target="#marksmodal">View Marks
+				      	<button type="submit" title="View Marks" id="viewmarksbutton" name="viewmarksbutton">View Marks
 				      	</button>
 			      	</center>
 			      	<br>
