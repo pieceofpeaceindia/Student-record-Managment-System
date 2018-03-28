@@ -300,6 +300,9 @@ $("#attendancesem").html('<option value="default" selected>Select Semester</opti
 		$(':checkbox:checked').each(function(i){
 			rollno[i]=$(this).val();
 		});
+		$("input:checkbox:not(:checked)").each(function(j){
+			absent[j]=$(this).val();
+		});
 		// console.log(absent);
 		var action="saveattendance";
 		// var attendancevalue=$("#submitattendance").serialize();
@@ -312,9 +315,16 @@ $("#attendancesem").html('<option value="default" selected>Select Semester</opti
 		$.ajax({
 			type:"POST",
 			url:"ajax.php",
-			data:{action:action,rollno:rollno,subjectcodeattendance:subjectcodeattendance,yearattendance:yearattendance,semattendance:semattendance,branchattendance:branchattendance,dateattendance:dateattendance},
+			data:{action:action,absent:absent,rollno:rollno,subjectcodeattendance:subjectcodeattendance,yearattendance:yearattendance,semattendance:semattendance,branchattendance:branchattendance,dateattendance:dateattendance},
 			success:function(result){
-				console.log(result);
+				if (result=='') {
+					$("#getstudentsrollno").html("<p>Thank you for submiting attendance</p>");
+					window.setTimeout(givedealy, 2000);
+					function givedealy(){
+						$("#markattendancemodal").modal("toggle");
+						document.getElementById('facultypageform').reset();
+					}
+				}
 			}
 		});
 	});

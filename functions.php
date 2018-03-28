@@ -285,7 +285,7 @@
 								WHERE studentbranch='$branch' AND studentyear='$year'";
 		if (mysqli_query($conn, $fetchstudentquery)) {
 			if ($conn->connect_error) {
-				$output .="Connection Error : ". $conn->connect_error;
+				echo "Connection Error : ". $conn->connect_error;
 			}else{
 				$count_if_exsist=mysqli_num_rows(mysqli_query($conn,$fetchstudentquery));
 					if($count_if_exsist>0){
@@ -294,15 +294,29 @@
 						{
 							foreach ($_POST["rollno"] as $rollno) {
 								if ($row["rollno"]==$rollno) {
-									echo $row["rollno"]." is present";
+									$presentquery ="INSERT INTO attendance(date, subjectcode, studentrollno, attendance, year, sem, branch)
+													VALUES ('$date','$subject','$rollno','P','$year','$sem','$branch')";
+									if(mysqli_query($conn, $presentquery)){
+										if ($conn->connect_error) {
+											echo "Connection Error : ". $conn->connect_error;
+										}
+									}
 								}
-								else{
-									
+							}
+							foreach ($_POST["absent"] as $absent) {
+								if ($row["rollno"]==$absent) {
+									$absentquery ="INSERT INTO attendance(date, subjectcode, studentrollno, attendance, year, sem, branch)
+													VALUES ('$date','$subject','$absent','A','$year','$sem','$branch')";
+									if(mysqli_query($conn, $absentquery)){
+										if ($conn->connect_error) {
+											echo "Connection Error : ". $conn->connect_error;
+										}
+									}
 								}
 							}
 						}
 					}else{
-
+						echo "Something Went wrong try again later";
 					}
 			}
 		}
