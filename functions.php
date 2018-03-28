@@ -205,6 +205,7 @@
 										<input type="hidden" id="semattendance" name="semattendance" value="'.$sem.'">
 										<input type="hidden" id="branchattendance" name="branchattendance" value="'.$branch.'">
 										<input type="hidden" id="dateattendance" name="dateattendance" value="'.$date.'">
+									</form>
 										<div class="row">
 										';
 						while ($row=mysqli_fetch_array($result)) 
@@ -214,8 +215,7 @@
 												<label class="form-check-label" for="inlineCheckbox1">'.$row["nameofstudent"].'</label>
 											</div>';
 						}
-						$output .='		</div>
-									</form>';
+						$output .='		</div>';
 					}else{
 						$output .='<p class="text-primary">Sorry No student details are available<p>';
 					}
@@ -244,7 +244,7 @@
 					if($count_if_exsist>0){
 						$result=mysqli_query($conn,$getstudentsquery);
 						$output .='<p class="text-warning">If marks not available please set to zero</p>
-								   	<table class="table table-border">
+								   	<table class="table table-hover table-border">
 								   		<thead class="tablehead">
 								   			<tr>
 								   				<th>Name</th>
@@ -272,4 +272,40 @@
 		}
 		echo $output;	
 	}
+
+	function saveattendance(){
+		global $conn;
+		$subject = mysqli_real_escape_string($conn, $_POST["subjectcodeattendance"]);
+		$year = mysqli_real_escape_string($conn, $_POST["yearattendance"]);
+		$sem = mysqli_real_escape_string($conn, $_POST["semattendance"]);
+		$branch = mysqli_real_escape_string($conn, $_POST["branchattendance"]);
+		$date = mysqli_real_escape_string($conn, $_POST["dateattendance"]);
+		// $rollno = mysqli_real_escape_string($conn, $_POST["rollno"]);
+		$fetchstudentquery = "SELECT * FROM studentdetails
+								WHERE studentbranch='$branch' AND studentyear='$year'";
+		if (mysqli_query($conn, $fetchstudentquery)) {
+			if ($conn->connect_error) {
+				$output .="Connection Error : ". $conn->connect_error;
+			}else{
+				$count_if_exsist=mysqli_num_rows(mysqli_query($conn,$fetchstudentquery));
+					if($count_if_exsist>0){
+						$result=mysqli_query($conn,$fetchstudentquery);
+						while ($row= mysqli_fetch_array($result)) 
+						{
+							foreach ($_POST["rollno"] as $rollno) {
+								if ($row["rollno"]==$rollno) {
+									echo $row["rollno"]." is present";
+								}
+								else{
+									
+								}
+							}
+						}
+					}else{
+
+					}
+			}
+		}
+	}
+
 ?>

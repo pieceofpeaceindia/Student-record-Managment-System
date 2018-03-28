@@ -31,6 +31,9 @@
 			case 'addmarks':
 				addmarks();
 				break;
+			case 'saveattendance':
+				saveattendance();
+				break;
 			default:
 				echo "<h3 class='alert alert-danger'>Something went wrong</h3>";
 				break;

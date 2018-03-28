@@ -294,6 +294,31 @@ $("#attendancesem").html('<option value="default" selected>Select Semester</opti
 		});
 	});
 
+	$("#saveattendance").click(function(){
+		var rollno= [];
+		var absent =[];
+		$(':checkbox:checked').each(function(i){
+			rollno[i]=$(this).val();
+		});
+		// console.log(absent);
+		var action="saveattendance";
+		// var attendancevalue=$("#submitattendance").serialize();
+		// console.log(rollno+attendancevalue);
+		var subjectcodeattendance =$("#subjectcodeattendance").val();
+		var yearattendance =$("#yearattendance").val();
+		var semattendance = $("#semattendance").val();
+		var branchattendance =$("#branchattendance").val();
+		var dateattendance = $("#dateattendance").val();
+		$.ajax({
+			type:"POST",
+			url:"ajax.php",
+			data:{action:action,rollno:rollno,subjectcodeattendance:subjectcodeattendance,yearattendance:yearattendance,semattendance:semattendance,branchattendance:branchattendance,dateattendance:dateattendance},
+			success:function(result){
+				console.log(result);
+			}
+		});
+	});
+
 	function getfeedback(){
 		var action = "showmsgs";
 		$.ajax({
