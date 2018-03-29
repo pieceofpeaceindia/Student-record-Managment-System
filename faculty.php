@@ -227,7 +227,7 @@
       				
       			</div>
       		</div>
-      		<div class="modal-footer modalstyle">
+      		<div class="modal-footer modalstyle" id="attendancemodalfooter">
         		<button type="button" class="btn btn-secondary" id="saveattendance" name="saveattendance">Submit</button>
       		</div>
     	</div>
@@ -247,8 +247,8 @@
       				
       			</div>
       		</div>
-      		<div class="modal-footer modalstyle">
-        		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      		<div class="modal-footer modalstyle" id="submitmarksmodalfooter">
+        		<button type="button" class="btn btn-secondary" id="savemarks" value="">Save Marks</button>
       		</div>
     	</div>
   	</div>

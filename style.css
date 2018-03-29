@@ -53,7 +53,7 @@ font-family: "Itim", sans-serif;
 	color:ghostwhite;
 }
 
-.reply, .updatemarks, #saveattendance,  #endofsession, #noend, #changeadminpass, #addmarksbutton, #attendancebutton, #feedsubmit, #addstudentbutton, #addfacultybutton, #viewattendancebutton, #viewmarksbutton{
+.reply, .close, .updatemarks, #saveattendance,  #endofsession, #noend, #changeadminpass, #addmarksbutton, #attendancebutton, #feedsubmit, #addstudentbutton, #addfacultybutton, #viewattendancebutton, #viewmarksbutton{
 	border: 0;
     border-radius: 20px;
     padding: 8px 30px;

@@ -171,11 +171,90 @@
 	}
 
 	function showattendance(){
-
+		global $conn;
+		$output ='';
+		$year = mysqli_real_escape_string($conn, $_POST["year"]);
+		$branch =mysqli_real_escape_string($conn, $_POST["branch"]);
+		$getattendacestatusquery ="SELECT * FROM attendance
+									WHERE year='$year' AND branch ='$branch'";
+		if(mysqli_query($conn,$getattendacestatusquery)){
+			if($conn->connect_error){
+				echo "Error";
+			}else{
+				$count_if_exsist=mysqli_num_rows(mysqli_query($conn,$getattendacestatusquery));
+				if($count_if_exsist>0){
+					$output .='<h1>'.$branch.'&nbsp;'.$year.'Attendance Status</h1>
+								<table class="table table-hover table-border">
+									<thead class="tablehead">
+										<tr>
+											<td>Roll No</td>
+											<td>Subject</td>
+											<td>Attendance</td>
+											<td>Total Lecture</td>
+										</tr>
+									</thead>
+									<tbody>';
+					$result=mysqli_query($conn,$getattendacestatusquery);
+					while ($row =mysqli_fetch_array($result)) {
+						$output .='		<tr>
+											<td>'.$row["studentrollno"].'</td>
+											<td>'.$row["subjectcode"].'</td>
+											<td>'.$row["attendance"].'</td>
+											<td>'.$row["date"].'</td>
+										</tr>';
+					}
+					$output .='		</tbody>
+								</table>';
+				}else{
+					$output .='<h1>Please try again later</h1>';
+				}
+			}
+		}
+		echo $output;
 	}
 
 	function showmarks(){
-
+		global $conn;
+		$output ='';
+		$year = mysqli_real_escape_string($conn, $_POST["year"]);
+		$branch =mysqli_real_escape_string($conn, $_POST["branch"]);
+		$getattendacestatusquery ="SELECT * FROM marks";
+		if(mysqli_query($conn,$getattendacestatusquery)){
+			if($conn->connect_error){
+				echo "Error";
+			}else{
+				$count_if_exsist=mysqli_num_rows(mysqli_query($conn,$getattendacestatusquery));
+				if($count_if_exsist>0){
+					$output .='<h1>'.$branch.'&nbsp;'.$year.'Attendance Status</h1>
+								<table class="table table-hover table-border">
+									<thead class="tablehead">
+										<tr>
+											<td>Roll No</td>
+											<td>Subject</td>
+											<td>CT 1</td>
+											<td>CT 2</td>
+											<td>Assignments</td>
+										</tr>
+									</thead>
+									<tbody>';
+					$result=mysqli_query($conn,$getattendacestatusquery);
+					while ($row =mysqli_fetch_array($result)) {
+						$output .='		<tr>
+											<td>'.$row["studentrollno"].'</td>
+											<td>'.$row["subject"].'</td>
+											<td>'.$row["firstsessional"].'</td>
+											<td>'.$row["secondsessional"].'</td>
+											<td>'.$row["assignment"].'</td>
+										</tr>';
+					}
+					$output .='		</tbody>
+								</table>';
+				}else{
+					$output .='<h1>Please try again later</h1>';
+				}
+			}
+		}
+		echo $output;
 	}
 
 	function getstudents(){
@@ -258,9 +337,10 @@
 						{
 						$output .='			<tr>
 												<td>'.$row["nameofstudent"].'</td>
-												<td><input type="number" class="form-control" max="30" min="0"></td>
-												<td><input type="number" class="form-control" max="30" min="0"></td>
-												<td><input type="number" class="form-control" max="10" min="0"></td>
+												<input type="hidden" name="rollno" value="'.$row["rollno"].'"> 
+												<td><input type="number" class="form-control" name="ctonemarks" max="30" min="0" value="0"></td>
+												<td><input type="number" class="form-control" name="cttwomarks" max="30" min="0" value="0"></td>
+												<td><input type="number" class="form-control" name="assignmarks" max="10" min="0" value="0"></td>
 											</tr>';
 						}
 						$output .='		</tbody>
@@ -318,6 +398,38 @@
 					}else{
 						echo "Something Went wrong try again later";
 					}
+			}
+		}
+	}
+
+	function savemarks(){
+		global $conn;
+		$i=0;
+		$roll=array();
+		$ctone=array();
+		$cttwo=array();
+		$assign =array();
+		$subject =mysqli_real_escape_string($conn,$_POST["subject"]);
+		foreach ($_POST["rollno"] as $rollno) {
+			$i=$i+1;
+			$roll[]=$rollno;
+		}
+		foreach ($_POST["ctonemarks"] as $ctonemarks) {
+			$ctone[]=$ctonemarks;
+		}
+		foreach ($_POST["cttwomarks"] as $cttwomarks) {
+			$cttwo[]=$cttwomarks;
+		}
+		foreach ($_POST["assignmarks"] as $assignmarks) {
+			$assign[]=$assignmarks;
+		}
+		for ($j=0; $j <$i ; $j++) { 
+			$savemarksquery = "INSERT INTO marks(subject, studentrollno, firstsessional, secondsessional,assignment,attendance)
+								VALUES ('$subject','$roll[$j]','$ctone[$j]','$cttwo[$j]','$assign[$j]','0')";
+			if (mysqli_query($conn, $savemarksquery)) {
+				if ($conn->connect_error) {
+					echo "Connection Error : ". $conn->connect_error;
+				}
 			}
 		}
 	}

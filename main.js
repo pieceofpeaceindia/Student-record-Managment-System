@@ -224,6 +224,7 @@ $("#attendancesem").html('<option value="default" selected>Select Semester</opti
 			success:function(result){
 				$("#addmarksmodal").modal('show');
 				$("#addmarksdiv").html(result);
+				$("#savemarks").val(subject);
 			}
 		});
 	});
@@ -238,16 +239,17 @@ $("#attendancesem").html('<option value="default" selected>Select Semester</opti
 				$('#viewrecorderror').html('');
 			}
 			return;
-		}else{
-			$('#attendancemodal').modal('show');
-		}
-		var dataString ='action=showattendance' + $("#viewrecordform").serialize();
+		}else
+		var action="showattendance";
+		// alert(dataString);
 		$.ajax({
 			type:"POST",
 			url:"ajax.php",
-			data:dataString,
+			data:{action:action,year:year,branch:branch},
 			success:function(result){
-
+				// alert(result);
+				$('#attendancemodal').modal('show');
+				$("#attendancedatadiv").html(result);
 			}
 		});
 	});
@@ -265,13 +267,13 @@ $("#attendancesem").html('<option value="default" selected>Select Semester</opti
 		}else{
 			$('#marksmodal').modal('show');
 		}
-		var dataString ='action=showmarks' + $("#viewrecordform").serialize();
+		var action="showmarks";
 		$.ajax({
 			type:"POST",
 			url:"ajax.php",
-			data:dataString,
+			data:{action:action,year:year,branch:branch},
 			success:function(result){
-
+				$("#marksdiv").html(result);
 			}
 		});
 	});
@@ -317,13 +319,46 @@ $("#attendancesem").html('<option value="default" selected>Select Semester</opti
 			url:"ajax.php",
 			data:{action:action,absent:absent,rollno:rollno,subjectcodeattendance:subjectcodeattendance,yearattendance:yearattendance,semattendance:semattendance,branchattendance:branchattendance,dateattendance:dateattendance},
 			success:function(result){
-				if (result=='') {
 					$("#getstudentsrollno").html("<p>Thank you for submiting attendance</p>");
 					window.setTimeout(givedealy, 2000);
 					function givedealy(){
 						$("#markattendancemodal").modal("toggle");
 						document.getElementById('facultypageform').reset();
 					}
+				}
+		});
+	});
+
+	$("#savemarks").click(function(){
+		var subject = $("#savemarks").val();
+		var ctonemarks=[];
+		var cttwomarks=[];
+		var assignmarks=[];
+		var rollno=[];
+		console.log(subject);
+		$("input[name='ctonemarks']").each(function(){
+			ctonemarks.push($(this).val());
+		});
+		$("input[name='cttwomarks']").each(function(){
+			cttwomarks.push($(this).val());
+		});
+		$("input[name='assignmarks']").each(function(){
+			assignmarks.push($(this).val());
+		});
+		$("input[name='rollno']").each(function(){
+			rollno.push($(this).val());
+		});
+		var action ="savemarks";
+		$.ajax({
+			type:"POST",
+			url:"ajax.php",
+			data:{action:action,cttwomarks:cttwomarks,ctonemarks:ctonemarks,assignmarks:assignmarks,subject:subject,rollno:rollno},
+			success:function(result){
+				$("#addmarksdiv").html('<p class="text-success">Records have been updated successfully</p>');
+				window.setTimeout(givedealy,2000);
+				function givedealy(){
+				$("#addmarksmodal").modal("toggle");
+				document.getElementById('facultypageform').reset();
 				}
 			}
 		});
