@@ -266,6 +266,16 @@ $("#attendancesem").html('<option value="default" selected>Select Semester</opti
 			return;
 		}else{
 			$('#marksmodal').modal('show');
+			var action="getsubjects";
+			$.ajax({
+				type:"POST",
+				url:"ajax.php",
+				data:{action:action,year:year,branch:branch},
+				success:function(result){
+					$("#sbjectselect").html(result);
+					console.log(result);
+				}
+			});
 		}
 		var action="showmarks";
 		$.ajax({
@@ -331,6 +341,8 @@ $("#attendancesem").html('<option value="default" selected>Select Semester</opti
 
 	$("#savemarks").click(function(){
 		var subject = $("#savemarks").val();
+		var branch = $("#marksbranch").val();
+		var year =$("#marksyear").val();
 		var ctonemarks=[];
 		var cttwomarks=[];
 		var assignmarks=[];
@@ -352,7 +364,7 @@ $("#attendancesem").html('<option value="default" selected>Select Semester</opti
 		$.ajax({
 			type:"POST",
 			url:"ajax.php",
-			data:{action:action,cttwomarks:cttwomarks,ctonemarks:ctonemarks,assignmarks:assignmarks,subject:subject,rollno:rollno},
+			data:{action:action,cttwomarks:cttwomarks,ctonemarks:ctonemarks,assignmarks:assignmarks,subject:subject,rollno:rollno,branch:branch,year:year},
 			success:function(result){
 				$("#addmarksdiv").html('<p class="text-success">Records have been updated successfully</p>');
 				window.setTimeout(givedealy,2000);

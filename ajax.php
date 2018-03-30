@@ -37,6 +37,8 @@
 			case 'savemarks':
 				savemarks();
 				break;
+			case 'getsubjects':
+				getsubjects();
 			default:
 				echo "<h3 class='alert alert-danger'>Something went wrong</h3>";
 				break;

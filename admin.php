@@ -341,8 +341,19 @@
 	          	<span aria-hidden="true">&times;</span>
 	        	</button>
       		</div>
-      		<div class="modal-body" id="marksdiv">
-      			
+      		<div class="modal-body">
+      			<div class="row" id="filterdiv">
+  					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+	      				<form class="form-inline my-2 my-lg-0" id="subjectfilterform">
+	      					<select class="custom-select" name="sbjectselect" id="sbjectselect">
+	      						
+	      					</select>
+	      				</form>     						
+  					</div>
+      			</div>
+      			<div id="marksdiv">
+      				
+      			</div>
       		</div>
       		<div class="modal-footer modalstyle">
         		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

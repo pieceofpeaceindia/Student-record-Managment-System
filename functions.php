@@ -183,8 +183,8 @@
 			}else{
 				$count_if_exsist=mysqli_num_rows(mysqli_query($conn,$getattendacestatusquery));
 				if($count_if_exsist>0){
-					$output .='<h1>'.$branch.'&nbsp;'.$year.'Attendance Status</h1>
-								<table class="table table-hover table-border">
+					$output .='<h4 class="text-center modalheading">'.$branch.'&nbsp;'.$year.'&nbsp;Year Attendance Status</h4>
+								<table class="table table-hover table-border text-center">
 									<thead class="tablehead">
 										<tr>
 											<td>Roll No</td>
@@ -206,7 +206,7 @@
 					$output .='		</tbody>
 								</table>';
 				}else{
-					$output .='<h1>Please try again later</h1>';
+					$output .='<h4 class="modalheading">Please try again later</h4>';
 				}
 			}
 		}
@@ -218,15 +218,18 @@
 		$output ='';
 		$year = mysqli_real_escape_string($conn, $_POST["year"]);
 		$branch =mysqli_real_escape_string($conn, $_POST["branch"]);
-		$getattendacestatusquery ="SELECT * FROM marks";
+		$getattendacestatusquery ="SELECT * FROM marks
+									WHERE branch='$branch' AND year='$year'
+									ORDER BY studentrollno ASC";
+		// die($getattendacestatusquery);
 		if(mysqli_query($conn,$getattendacestatusquery)){
 			if($conn->connect_error){
 				echo "Error";
 			}else{
 				$count_if_exsist=mysqli_num_rows(mysqli_query($conn,$getattendacestatusquery));
 				if($count_if_exsist>0){
-					$output .='<h1>'.$branch.'&nbsp;'.$year.'Attendance Status</h1>
-								<table class="table table-hover table-border">
+					$output .='<h4 class="text-center modalheading">'.$branch.'&nbsp;'.$year.'&nbsp; Marks Status</h4>
+								<table class="table table-hover table-border text-center">
 									<thead class="tablehead">
 										<tr>
 											<td>Roll No</td>
@@ -250,7 +253,7 @@
 					$output .='		</tbody>
 								</table>';
 				}else{
-					$output .='<h1>Please try again later</h1>';
+					$output .='<h4 class="modalheading">Please try again later</h4>';
 				}
 			}
 		}
@@ -323,7 +326,7 @@
 					if($count_if_exsist>0){
 						$result=mysqli_query($conn,$getstudentsquery);
 						$output .='<p class="text-warning">If marks not available please set to zero</p>
-								   	<table class="table table-hover table-border">
+								   	<table class="table table-hover table-border text-center">
 								   		<thead class="tablehead">
 								   			<tr>
 								   				<th>Name</th>
@@ -332,12 +335,14 @@
 								   				<th>Assignment</th>
 								   			</tr>
 								   		</thead>
-								   		<tbody>';
+								   		<tbody>
+								   		<input type="hidden" name="marksbranch" id="marksbranch" value="'.$branch.'">
+								   		<input type="hidden" name="marksyear" id="marksyear" value="'.$year.'">';
 						while ($row=mysqli_fetch_array($result)) 
 						{
 						$output .='			<tr>
 												<td>'.$row["nameofstudent"].'</td>
-												<input type="hidden" name="rollno" value="'.$row["rollno"].'"> 
+												<input type="hidden" name="rollno" value="'.$row["rollno"].'">
 												<td><input type="number" class="form-control" name="ctonemarks" max="30" min="0" value="0"></td>
 												<td><input type="number" class="form-control" name="cttwomarks" max="30" min="0" value="0"></td>
 												<td><input type="number" class="form-control" name="assignmarks" max="10" min="0" value="0"></td>
@@ -410,6 +415,8 @@
 		$cttwo=array();
 		$assign =array();
 		$subject =mysqli_real_escape_string($conn,$_POST["subject"]);
+		$year =mysqli_real_escape_string($conn,$_POST["year"]);
+		$branch = mysqli_real_escape_string($conn, $_POST["branch"]);
 		foreach ($_POST["rollno"] as $rollno) {
 			$i=$i+1;
 			$roll[]=$rollno;
@@ -424,14 +431,42 @@
 			$assign[]=$assignmarks;
 		}
 		for ($j=0; $j <$i ; $j++) { 
-			$savemarksquery = "INSERT INTO marks(subject, studentrollno, firstsessional, secondsessional,assignment,attendance)
-								VALUES ('$subject','$roll[$j]','$ctone[$j]','$cttwo[$j]','$assign[$j]','0')";
+			$savemarksquery = "INSERT INTO marks(subject, studentrollno, firstsessional, secondsessional,assignment,attendance,year,branch)
+								VALUES ('$subject','$roll[$j]','$ctone[$j]','$cttwo[$j]','$assign[$j]','0','$year','$branch')";
 			if (mysqli_query($conn, $savemarksquery)) {
 				if ($conn->connect_error) {
 					echo "Connection Error : ". $conn->connect_error;
 				}
 			}
 		}
+	}
+
+	function getsubjects(){
+		global $conn;
+		$output ='';
+		$branch =mysqli_real_escape_string($conn, $_POST["branch"]);
+		$year = mysqli_real_escape_string($conn, $_POST["year"]);
+		$getsubjectquery ="SELECT * FROM subjects
+							WHERE branch='$branch' AND year='$year'";
+		if(mysqli_query($conn, $getsubjectquery)){
+			if($conn->connect_error){
+				echo $conn->connect_error;
+			}else{
+				$count_if_exsist=mysqli_num_rows(mysqli_query($conn,$getsubjectquery));
+				if($count_if_exsist>0)
+				{
+					$output .='<option value="default" selected>Select Subject</option>';
+					$result=mysqli_query($conn,$getsubjectquery);
+					while ($row=mysqli_fetch_array($result)) 
+					{
+						$output .='<option value="'.$row["subjectode"].'">'.$row["subjectode"].'</option>';
+					}
+				}else{
+					$output .='<option>Something went wrong</option>';
+				} 	
+			}
+		}
+		echo $output;
 	}
 
 ?>
