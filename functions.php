@@ -218,17 +218,19 @@
 		$output ='';
 		$year = mysqli_real_escape_string($conn, $_POST["year"]);
 		$branch =mysqli_real_escape_string($conn, $_POST["branch"]);
-		$getattendacestatusquery ="SELECT * FROM marks
+		$getmarksquery ="SELECT * FROM marks
 									WHERE branch='$branch' AND year='$year'
 									ORDER BY studentrollno ASC";
-		// die($getattendacestatusquery);
-		if(mysqli_query($conn,$getattendacestatusquery)){
+		// die($getmarksquery);
+		if(mysqli_query($conn,$getmarksquery)){
 			if($conn->connect_error){
 				echo "Error";
 			}else{
-				$count_if_exsist=mysqli_num_rows(mysqli_query($conn,$getattendacestatusquery));
+				$count_if_exsist=mysqli_num_rows(mysqli_query($conn,$getmarksquery));
 				if($count_if_exsist>0){
-					$output .='<h4 class="text-center modalheading">'.$branch.'&nbsp;'.$year.'&nbsp; Marks Status</h4>
+					$output .='<h4 class="text-center modalheading">'.$branch.'&nbsp;'.$year.'&nbsp;Year Marks Status</h4>
+								<input type="hidden" name="branchmarks" id="branchmarks" value="'.$branch.'">
+								<input type="hidden" name="yearmarks" id="yearmarks" value="'.$year.'">
 								<table class="table table-hover table-border text-center">
 									<thead class="tablehead">
 										<tr>
@@ -239,18 +241,11 @@
 											<td>Assignments</td>
 										</tr>
 									</thead>
-									<tbody>';
-					$result=mysqli_query($conn,$getattendacestatusquery);
-					while ($row =mysqli_fetch_array($result)) {
-						$output .='		<tr>
-											<td>'.$row["studentrollno"].'</td>
-											<td>'.$row["subject"].'</td>
-											<td>'.$row["firstsessional"].'</td>
-											<td>'.$row["secondsessional"].'</td>
-											<td>'.$row["assignment"].'</td>
-										</tr>';
-					}
-					$output .='		</tbody>
+									<tbody>
+										<h5 class="text-warning text-center">
+											Please select a subject
+										</h5>
+									</tbody>
 								</table>';
 				}else{
 					$output .='<h4 class="modalheading">Please try again later</h4>';
@@ -464,6 +459,57 @@
 				}else{
 					$output .='<option>Something went wrong</option>';
 				} 	
+			}
+		}
+		echo $output;
+	}
+
+	function showparticularmarks(){
+		global $conn;
+		$output ='';
+		$year = mysqli_real_escape_string($conn, $_POST["year"]);
+		$branch =mysqli_real_escape_string($conn, $_POST["branch"]);
+		$subject =mysqli_real_escape_string($conn, $_POST["subject"]);
+		$marksfilterquery ="SELECT * FROM marks
+							WHERE branch='$branch' AND year='$year' AND subject='$subject'
+							ORDER BY studentrollno ASC";
+		// die($marksfilterquery);
+		$output .='	<input type="hidden" name="branchmarks" id="branchmarks" value="'.$branch.'">
+					<input type="hidden" name="yearmarks" id="yearmarks" value="'.$year.'">';
+		if(mysqli_query($conn,$marksfilterquery)){
+			if($conn->connect_error){
+				echo "Error";
+			}else{
+				$count_if_exsist=mysqli_num_rows(mysqli_query($conn,$marksfilterquery));
+				if($count_if_exsist>0){
+					$output .='<h4 class="text-center modalheading">'.$branch.'&nbsp;'.$year.'&nbsp;Year Marks Status</h4>
+								<table class="table table-hover table-border text-center">
+									<thead class="tablehead">
+										<tr>
+											<td>Roll No</td>
+											<td>Subject</td>
+											<td>CT 1</td>
+											<td>CT 2</td>
+											<td>Assignments</td>
+										</tr>
+									</thead>
+									<tbody>';
+					$result=mysqli_query($conn,$marksfilterquery);
+					while ($row =mysqli_fetch_array($result)) {
+						$output .='		<tr>
+											<td>'.$row["studentrollno"].'</td>
+											<td>'.$row["subject"].'</td>
+											<td>'.$row["firstsessional"].'</td>
+											<td>'.$row["secondsessional"].'</td>
+											<td>'.$row["assignment"].'</td>
+										</tr>';
+					}
+					$output .='		</tbody>
+								</table>';
+				}else{
+					$output .='
+					<h4 class="modalheading">Oops!! Its looks like you choosed wrong subject</h4>';
+				}
 			}
 		}
 		echo $output;

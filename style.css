@@ -66,7 +66,7 @@ font-family: "Itim", sans-serif;
     background-color: teal;
     color: ghostwhite;
 }
-#datefilterbutton, #percentagefilterbutton{
+#datefilterbutton, #percentagefilterbutton, #subjectfilter{
     border: 0;
     border-radius: 20px;
     padding: 8px 5px;
@@ -108,7 +108,7 @@ font-family: "Itim", sans-serif;
     padding-top: 50px;
 }
 
-#addmarksbutton:hover, #attendancebutton:hover, #percentagefilterbutton:hover, #datefilterbutton:hover ,#viewattendancebutton:hover, #viewmarksbutton:hover, .viewrecords:hover, .addfaculty:hover, .addstudent:hover, #feedsubmit:hover, #addstudentbutton:hover, #addfacultybutton:hover , .viewrecords:hover{
+#addmarksbutton:hover, #attendancebutton:hover, #subjectfilter:hover, #percentagefilterbutton:hover, #datefilterbutton:hover ,#viewattendancebutton:hover, #viewmarksbutton:hover, .viewrecords:hover, .addfaculty:hover, .addstudent:hover, #feedsubmit:hover, #addstudentbutton:hover, #addfacultybutton:hover , .viewrecords:hover{
 	cursor: pointer;
 }
 

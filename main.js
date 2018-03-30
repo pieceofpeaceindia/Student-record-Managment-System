@@ -93,7 +93,7 @@ $(document).ready(function(){
 			url:"ajax.php",
 			data : dataString,
 			success:function(result){
-				console.log(result);
+				// console.log(result);
 				$('#addfacultyerror').html(result);
 				document.getElementById('addfacultyform').reset();
 				window.setTimeout(givedealy, 2000);
@@ -158,18 +158,19 @@ $("#attendancesem").html('<option value="default" selected>Select Semester</opti
 		}
 	});
 
+
 	$("#attendancebranch").on("change",function(){
 		var branch = $("#attendancebranch").val();
 		var year =$("#attendanceyear").val();
 		var sem =$("#attendancesem").val();
 		var dataString = 'action=selectinput&'+'year='+year+'&branch='+branch+'&sem='+sem;
-		console.log(dataString);
+		// console.log(dataString);
 		$.ajax({
 			type:"POST",
 			url:"ajax.php",
 			data : dataString,
 			success : function(result){
-				console.log(result);
+				// console.log(result);
 				$("#attendancesubject").html(result);
 			}
 		});
@@ -273,7 +274,7 @@ $("#attendancesem").html('<option value="default" selected>Select Semester</opti
 				data:{action:action,year:year,branch:branch},
 				success:function(result){
 					$("#sbjectselect").html(result);
-					console.log(result);
+					// console.log(result);
 				}
 			});
 		}
@@ -282,6 +283,22 @@ $("#attendancesem").html('<option value="default" selected>Select Semester</opti
 			type:"POST",
 			url:"ajax.php",
 			data:{action:action,year:year,branch:branch},
+			success:function(result){
+				$("#marksdiv").html(result);
+			}
+		});
+	});
+
+	$("#sbjectselect").on("change",function(){
+		var branch= $("#branchmarks").val();
+		var year =$("#yearmarks").val();
+		var subject = $("#sbjectselect").val();
+		// console.log(branch+year+subject);
+		var action ="showthismuch";
+		$.ajax({
+			type:"POST",
+			url:"ajax.php",
+			data:{action:action,branch:branch,year:year,subject:subject},
 			success:function(result){
 				$("#marksdiv").html(result);
 			}
@@ -347,7 +364,7 @@ $("#attendancesem").html('<option value="default" selected>Select Semester</opti
 		var cttwomarks=[];
 		var assignmarks=[];
 		var rollno=[];
-		console.log(subject);
+		// console.log(subject);
 		$("input[name='ctonemarks']").each(function(){
 			ctonemarks.push($(this).val());
 		});
