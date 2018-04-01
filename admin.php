@@ -206,8 +206,8 @@
 		        			<div class="form-group">
 		        				<input class="form-control" type="password" name="adminnewpass" id="adminnewpass" placeholder="New Password" required>
 		        			</div>
+		        			<button type="button" class="btn btn-success btn-sm" id="changeadminpass">Change password</button>
 		        		</form>
-		        		<button type="button" class="btn btn-success btn-sm" id="changeadminpass">Change password</button>
 		        		<br><br>
       				</div>
       				<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">

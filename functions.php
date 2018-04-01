@@ -172,45 +172,95 @@
 
 	function showattendance(){
 		global $conn;
+		$temp='';
 		$output ='';
 		$year = mysqli_real_escape_string($conn, $_POST["year"]);
 		$branch =mysqli_real_escape_string($conn, $_POST["branch"]);
-		$getattendacestatusquery ="SELECT * FROM attendance
-									WHERE year='$year' AND branch ='$branch'";
-		if(mysqli_query($conn,$getattendacestatusquery)){
+		$fetchstudentquery = "SELECT * FROM studentdetails
+							  WHERE studentbranch ='$branch' AND studentyear='$year' ";
+		$output .='<h4 class="text-center modalheading">'.$branch.'&nbsp;'.$year.'&nbsp;Year Attendance Status</h4>
+					<table class="table table-hover table-border text-center">
+						<thead class="tablehead">
+							<tr>
+								<td>Roll No</td>
+								<td>Subject</td>
+								<td>Attendance</td>
+								<td>Total Lecture</td>
+								<td>Percentage</td>
+							</tr>
+						</thead>
+						<tbody>';
+		if(mysqli_query($conn,$fetchstudentquery)){
 			if($conn->connect_error){
-				echo "Error";
+				echo "Unable to connect with db becuase of :".$conn->connect_error;
 			}else{
-				$count_if_exsist=mysqli_num_rows(mysqli_query($conn,$getattendacestatusquery));
-				if($count_if_exsist>0){
-					$output .='<h4 class="text-center modalheading">'.$branch.'&nbsp;'.$year.'&nbsp;Year Attendance Status</h4>
-								<table class="table table-hover table-border text-center">
-									<thead class="tablehead">
-										<tr>
-											<td>Roll No</td>
-											<td>Subject</td>
-											<td>Attendance</td>
-											<td>Total Lecture</td>
-										</tr>
-									</thead>
-									<tbody>';
-					$result=mysqli_query($conn,$getattendacestatusquery);
-					while ($row =mysqli_fetch_array($result)) {
-						$output .='		<tr>
-											<td>'.$row["studentrollno"].'</td>
-											<td>'.$row["subjectcode"].'</td>
-											<td>'.$row["attendance"].'</td>
-											<td>'.$row["date"].'</td>
-										</tr>';
+				$getrowsno = mysqli_num_rows(mysqli_query($conn,$fetchstudentquery));
+				if($getrowsno>0){
+					$resulta=mysqli_query($conn,$fetchstudentquery);
+					while ($rowa =mysqli_fetch_array($resulta)){
+						$temp=$rowa["rollno"];
+						$getattendacestatusquery ="SELECT DISTINCT 	studentrollno, subjectcode FROM attendance
+												   WHERE year='$year' AND branch ='$branch' AND studentrollno='$temp' ";
+						// $checkquery ="SELECT DISTINCT subjectcode FROM attendance";
+						// print_r(mysqli_query($conn,$checkquery));
+						// $output .='
+						// 	<tr>
+						// 		<td>'.$rowa["rollno"].'</td>';
+						if(mysqli_query($conn,$getattendacestatusquery)){
+							if($conn->connect_error){
+								echo "Error";
+							}else{
+								$count_if_exsist=mysqli_num_rows(mysqli_query($conn,$getattendacestatusquery));
+								if($count_if_exsist>0){
+									$result=mysqli_query($conn,$getattendacestatusquery);
+									// print_r($count_if_exsist);
+									while ($row =mysqli_fetch_array($result)) {
+										$code = $row["subjectcode"];
+										$countquery1= "SELECT COUNT(attendance) FROM attendance 
+														WHERE studentrollno='$temp'AND subjectcode='$code'";
+										$countquery2= "SELECT COUNT(attendance) FROM attendance 
+														WHERE studentrollno='$temp'AND subjectcode='$code' AND attendance='P'";
+										// print_r($countquery1.$countquery2);
+										$rs = mysqli_query($conn, $countquery2);
+										$ds = mysqli_query($conn, $countquery1);
+										$resultb = mysqli_fetch_array($rs);
+										$resultc = mysqli_fetch_array($ds);
+										// die($resultc[0].$resultb[0]);
+										$output .='
+							<tr>					
+								<td>'.$row["studentrollno"].'</td>
+								<td>'.$row["subjectcode"].'</td>
+								<td>'.$resultb[0].'</td>
+								<td>'.$resultc[0].'</td>
+									'.countpercentage($resultb[0] ,$resultc[0]);
+								$output .='
+							</tr>';	
+									}
+								}else{
+									$output .='<h4 class="modalheading">Please try again later</h4>';
+								}
+							}
+						}
 					}
-					$output .='		</tbody>
-								</table>';
-				}else{
-					$output .='<h4 class="modalheading">Please try again later</h4>';
 				}
 			}
 		}
+		$output .='
+									
+						</tbody>
+					</table>';
 		echo $output;
+	}
+	function countpercentage($x,$y,$z=0){
+		$result ='';
+		$perct = ($x/$y) * 100;
+		// return $perct;
+		if($perct < $z){
+			$result = '<td>'.$perct.'</td>';
+		}else{
+			$result = '<td>'.$perct.'</td>';
+		}
+		return $result;
 	}
 
 	function showmarks(){
@@ -514,5 +564,4 @@
 		}
 		echo $output;
 	}
-
 ?>
