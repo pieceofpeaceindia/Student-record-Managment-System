@@ -240,7 +240,18 @@ $("#attendancesem").html('<option value="default" selected>Select Semester</opti
 				$('#viewrecorderror').html('');
 			}
 			return;
-		}else
+		}else{
+			var action="getsubjects";
+			$.ajax({
+				type:"POST",
+				url:"ajax.php",
+				data:{action:action,year:year,branch:branch},
+				success:function(result){
+					$("#subselect").html(result);
+					// console.log(result);
+				}
+			});			
+		}
 		var action="showattendance";
 		// alert(dataString);
 		$.ajax({

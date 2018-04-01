@@ -301,9 +301,20 @@
 	        	</button>
       		</div>
       		<div class="modal-body" id="attendancediv">
-      			<div class="form_div" id="attendanceformdiv">
-      				<div class="row">
-      					<center>
+      			<div class="form_div my-2 my-lg-0" id="attendanceformdiv">
+      				<div class="row" id="subfilterdiv">
+	  					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+	  						<p class="text-warning">Select the subject for subject wise attendance status. For checking between two dates use date fillter, and you can set the percentage criteria.</p>
+		      				<form class="form-inline my-2 my-lg-0" id="subfilterform">
+		      					<select class="custom-select mr-sm-2" name="subselect" id="subselect">
+		      						<option>Select a subject to apply filter</option>
+		      					</select>
+		      				</form> 
+		      				<p></p>    						
+	  					</div>
+	      			</div>
+	      			<div class="row">
+		      			<center>
       					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 		      				<form class="form-inline my-2 my-lg-0" id="datefilterform">
 		      					<input class="form-control mr-sm-2" type="date" name="firstdate" id="firstdate" placeholder="Select First Date" required>
