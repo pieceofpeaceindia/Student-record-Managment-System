@@ -160,10 +160,10 @@ margin-bottom: 0px;
     overflow-y: scroll;
 }
 
-#attendancedatadiv{
+/*#attendancedatadiv{
     max-height: 350px;
     overflow-y: scroll;
-}
+}*/
 #attendanceformdiv{
     padding-bottom: 2px;
 }

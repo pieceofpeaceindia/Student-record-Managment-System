@@ -248,19 +248,31 @@ $("#attendancesem").html('<option value="default" selected>Select Semester</opti
 				data:{action:action,year:year,branch:branch},
 				success:function(result){
 					$("#subselect").html(result);
-					// console.log(result);
 				}
 			});			
 		}
 		var action="showattendance";
-		// alert(dataString);
 		$.ajax({
 			type:"POST",
 			url:"ajax.php",
 			data:{action:action,year:year,branch:branch},
 			success:function(result){
-				// alert(result);
 				$('#attendancemodal').modal('show');
+				$("#attendancedatadiv").html(result);
+			}
+		});
+	});
+
+	$("#subselect").on("change",function(){
+		var branch = $("#subfilterbranch").val();
+		var year =$("#subfilteryear").val();
+		var subject =$("#subselect").val();
+		var action ="thissubject";
+		$.ajax({
+			type:"POST",
+			url:"ajax.php",
+			data:{action:action,branch:branch,year:year,subject:subject},
+			success:function(result){
 				$("#attendancedatadiv").html(result);
 			}
 		});

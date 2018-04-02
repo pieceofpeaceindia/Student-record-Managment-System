@@ -20,7 +20,7 @@
 				showfeedbacks();
 				break;
 			case 'showattendance':
-				showattendance();
+				showattendanceoverall();
 				break;
 			case 'showmarks':
 				showmarks();
@@ -43,8 +43,11 @@
 			case 'showthismuch':
 				showparticularmarks();
 				break;
+			case "thissubject":
+				showattendance();
+				break;
 			default:
-				echo "<h3 class='alert alert-danger'>Something went wrong</h3>";
+				echo "<p class='alert alert-danger'>Something went wrong</p>";
 				break;
 		}
 	}else{

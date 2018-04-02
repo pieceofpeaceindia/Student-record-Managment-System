@@ -176,6 +176,7 @@
 		$output ='';
 		$year = mysqli_real_escape_string($conn, $_POST["year"]);
 		$branch =mysqli_real_escape_string($conn, $_POST["branch"]);
+		$subject = mysqli_real_escape_string($conn , $_POST["subject"]);
 		$fetchstudentquery = "SELECT * FROM studentdetails
 							  WHERE studentbranch ='$branch' AND studentyear='$year' ";
 		$output .='<h4 class="text-center modalheading">'.$branch.'&nbsp;'.$year.'&nbsp;Year Attendance Status</h4>
@@ -190,8 +191,8 @@
 							</tr>
 						</thead>
 						<tbody>
-						<input type="hidden" name="subfilterbranch" id="subfilterbranch">
-						<input type="hidden" name="subfilteryear" id="subfilteryear">';
+						<input type="hidden" name="subfilterbranch" id="subfilterbranch" value="'.$branch.'">
+						<input type="hidden" name="subfilteryear" id="subfilteryear" value="'.$year.'">';
 		if(mysqli_query($conn,$fetchstudentquery)){
 			if($conn->connect_error){
 				echo "Unable to connect with db becuase of :".$conn->connect_error;
@@ -201,7 +202,7 @@
 					$resulta=mysqli_query($conn,$fetchstudentquery);
 					while ($rowa =mysqli_fetch_array($resulta)){
 						$temp=$rowa["rollno"];
-						$getattendacestatusquery ="SELECT DISTINCT 	studentrollno, subjectcode FROM attendance
+						$getattendacestatusquery ="SELECT DISTINCT 	studentrollno FROM attendance
 												   WHERE year='$year' AND branch ='$branch' AND studentrollno='$temp' ";
 						if(mysqli_query($conn,$getattendacestatusquery)){
 							if($conn->connect_error){
@@ -211,23 +212,23 @@
 								if($count_if_exsist>0){
 									$result=mysqli_query($conn,$getattendacestatusquery);
 									while ($row =mysqli_fetch_array($result)) {
-										$code = $row["subjectcode"];
+										$currentrollno=$row["studentrollno"];
 										$countquery1= "SELECT COUNT(attendance) FROM attendance 
-														WHERE studentrollno='$temp'AND subjectcode='$code'";
+														WHERE studentrollno='$currentrollno'AND subjectcode='$subject'";
 										$countquery2= "SELECT COUNT(attendance) FROM attendance 
-														WHERE studentrollno='$temp'AND subjectcode='$code' AND attendance='P'";
+														WHERE studentrollno='$currentrollno'AND subjectcode='$subject' AND attendance='P'";
 										$rs = mysqli_query($conn, $countquery2);
 										$ds = mysqli_query($conn, $countquery1);
 										$resultb = mysqli_fetch_array($rs);
 										$resultc = mysqli_fetch_array($ds);
 										$output .='
 							<tr>					
-								<td>'.$row["studentrollno"].'</td>
-								<td>'.$row["subjectcode"].'</td>
+								<td>'.$currentrollno.'</td>
+								<td>'.$subject.'</td>
 								<td>'.$resultb[0].'</td>
 								<td>'.$resultc[0].'</td>
 									'.countpercentage($resultb[0] ,$resultc[0]);
-								$output .='
+										$output .='
 							</tr>';	
 									}
 								}else{
@@ -236,11 +237,12 @@
 							}
 						}
 					}
+				}else{
+					$output .='<h4 class="modalheading text-warning">Please try again later</h4>';
 				}
 			}
 		}
 		$output .='
-									
 						</tbody>
 					</table>';
 		echo $output;
@@ -248,16 +250,17 @@
 	function countpercentage($x,$y,$z=75){
 		$result ='';
 		$z=(float)($z);
-		$perct = (float)(($x/$y) * (100));
-		// var_dump($perct);
-		// var_dump($z);
-		// return $perct;
-		if($perct < $z){
-			$result = '<td class="text-danger">'.number_format((float)$perct, 2, '.', '');
+		if($y==0){
+			$result ='<td class="text-warning">NA</td>';
 		}else{
-			$result = '<td class="text-success">'.number_format((float)$perct, 2, '.', '');
+			$perct = (float)(($x/$y) * (100));
+			if($perct < $z){
+				$result = '<td class="text-danger">'.number_format((float)$perct, 2, '.', '');
+			}else{
+				$result = '<td class="text-success">'.number_format((float)$perct, 2, '.', '');
+			}
+			$result .='</td>';
 		}
-		$result .='</td>';
 		return $result;
 	}
 
@@ -563,87 +566,77 @@
 		echo $output;
 	}
 
-	//	function showattendance(){
-	// 	global $conn;
-	// 	$temp='';
-	// 	$output ='';
-	// 	$year = mysqli_real_escape_string($conn, $_POST["year"]);
-	// 	$branch =mysqli_real_escape_string($conn, $_POST["branch"]);
-	// 	$fetchstudentquery = "SELECT * FROM studentdetails
-	// 						  WHERE studentbranch ='$branch' AND studentyear='$year' ";
-	// 	$output .='<h4 class="text-center modalheading">'.$branch.'&nbsp;'.$year.'&nbsp;Year Attendance Status</h4>
-	// 				<table class="table table-hover table-border text-center table-responsive-lg">
-	// 					<thead class="tablehead">
-	// 						<tr>
-	// 							<td>Roll No</td>
-	// 							<td>Subject</td>
-	// 							<td>Attendance</td>
-	// 							<td>Total Lecture</td>
-	// 							<td>Percentage</td>
-	// 							<td>Subject</td>
-	// 							<td>Attendance</td>
-	// 							<td>Total Lecture</td>
-	// 							<td>Percentage</td>
-	// 							<td>Subject</td>
-	// 							<td>Attendance</td>
-	// 							<td>Total Lecture</td>
-	// 							<td>Percentage</td>
-	// 						</tr>
-	// 					</thead>
-	// 					<tbody>';
-	// 	if(mysqli_query($conn,$fetchstudentquery)){
-	// 		if($conn->connect_error){
-	// 			echo "Unable to connect with db becuase of :".$conn->connect_error;
-	// 		}else{
-	// 			$getrowsno = mysqli_num_rows(mysqli_query($conn,$fetchstudentquery));
-	// 			if($getrowsno>0){
-	// 				$resulta=mysqli_query($conn,$fetchstudentquery);
-	// 				while ($rowa =mysqli_fetch_array($resulta)){
-	// 					$temp=$rowa["rollno"];
-	// 					$output .='
-	// 						<tr>					
-	// 							<td>'.$rowa["rollno"].'</td>';
-	// 					$getattendacestatusquery ="SELECT DISTINCT 	studentrollno, subjectcode FROM attendance
-	// 											   WHERE year='$year' AND branch ='$branch' AND studentrollno='$temp' ";
-	// 					if(mysqli_query($conn,$getattendacestatusquery)){
-	// 						if($conn->connect_error){
-	// 							echo "Error";
-	// 						}else{
-	// 							$count_if_exsist=mysqli_num_rows(mysqli_query($conn,$getattendacestatusquery));
-	// 							if($count_if_exsist>0){
-	// 								$result=mysqli_query($conn,$getattendacestatusquery);
-	// 								while ($row =mysqli_fetch_array($result)) {
-	// 									$code = $row["subjectcode"];
-	// 									$countquery1= "SELECT COUNT(attendance) FROM attendance 
-	// 													WHERE studentrollno='$temp'AND subjectcode='$code'";
-	// 									$countquery2= "SELECT COUNT(attendance) FROM attendance 
-	// 													WHERE studentrollno='$temp'AND subjectcode='$code' AND attendance='P'";
-	// 									$rs = mysqli_query($conn, $countquery2);
-	// 									$ds = mysqli_query($conn, $countquery1);
-	// 									$resultb = mysqli_fetch_array($rs);
-	// 									$resultc = mysqli_fetch_array($ds);
-	// 									$output .='
-							
-	// 							<td>'.$row["subjectcode"].'</td>
-	// 							<td>'.$resultb[0].'</td>
-	// 							<td>'.$resultc[0].'</td>
-	// 								'.countpercentage($resultb[0] ,$resultc[0]);
-	// 							$output .='
-	// 						';	
-	// 								}
-	// 							}else{
-	// 								$output .='<h4 class="modalheading">Please try again later</h4>';
-	// 							}
-	// 						}
-	// 					}
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// 	$output .='
-	// 						</tr>				
-	// 					</tbody>
-	// 				</table>';
-	// 	echo $output;
-	// }
+		function showattendanceoverall(){
+		global $conn;
+		$temp='';
+		$output ='';
+		$year = mysqli_real_escape_string($conn, $_POST["year"]);
+		$branch =mysqli_real_escape_string($conn, $_POST["branch"]);
+		$fetchstudentquery = "SELECT * FROM studentdetails
+							  WHERE studentbranch ='$branch' AND studentyear='$year' ";
+		$output .='<h4 class="text-center modalheading">'.$branch.'&nbsp;'.$year.'&nbsp;Year Attendance Status</h4>
+					<table class="table table-hover table-border text-center table-responsive-lg">
+						<thead class="tablehead">
+							<tr>
+								<td>Roll No</td>
+								<td>Attendance</td>
+								<td>Total Lecture</td>
+								<td>Percentage</td>
+							</tr>
+						</thead>
+						<tbody>
+						<input type="hidden" name="subfilterbranch" id="subfilterbranch" value="'.$branch.'">
+						<input type="hidden" name="subfilteryear" id="subfilteryear" value="'.$year.'">';
+		if(mysqli_query($conn,$fetchstudentquery)){
+			if($conn->connect_error){
+				echo "Unable to connect with db becuase of :".$conn->connect_error;
+			}else{
+				$getrowsno = mysqli_num_rows(mysqli_query($conn,$fetchstudentquery));
+				if($getrowsno>0){
+					$resulta=mysqli_query($conn,$fetchstudentquery);
+					while ($rowa =mysqli_fetch_array($resulta)){
+						$temp=$rowa["rollno"];
+						$output .='
+							<tr>					
+								<td>'.$rowa["rollno"].'</td>';
+						$getattendacestatusquery ="SELECT DISTINCT 	studentrollno, subjectcode FROM attendance
+												   WHERE year='$year' AND branch ='$branch' AND studentrollno='$temp' ";
+						if(mysqli_query($conn,$getattendacestatusquery)){
+							if($conn->connect_error){
+								echo "Error";
+							}else{
+								$count_if_exsist=mysqli_num_rows(mysqli_query($conn,$getattendacestatusquery));
+								if($count_if_exsist>0){
+									$result=mysqli_query($conn,$getattendacestatusquery);
+									while ($row =mysqli_fetch_array($result)) {
+										$currentrollno = $row["studentrollno"];
+										$countquery1= "SELECT COUNT(attendance) FROM attendance 
+														WHERE studentrollno='$currentrollno'";
+										$countquery2= "SELECT COUNT(attendance) FROM attendance 
+														WHERE studentrollno='$currentrollno' AND attendance='P'";
+										$rs = mysqli_query($conn, $countquery2);
+										$ds = mysqli_query($conn, $countquery1);
+										$resultb = mysqli_fetch_array($rs);
+										$resultc = mysqli_fetch_array($ds);
+										
+									}
+									$output .='
+								<td>'.$resultb[0].'</td>
+								<td>'.$resultc[0].'</td>
+								'.countpercentage($resultb[0] ,$resultc[0]);
+								}else{
+									$output .='<h4 class="modalheading">Please try again later</h4>';
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		$output .='
+							</tr>				
+						</tbody>
+					</table>';
+		echo $output;
+	}
 ?>
