@@ -146,7 +146,7 @@
       		</div>
       		<div class="modal-footer modalstyle">
         		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        		<button type="button" class="btn btn-success" id="facultyloginbutton">Log In</button>
+        		<button type="button" class="btn btn-success" id="facultyloginbutton" href="faculty.php">Log In</button>
       		</div>
     	</div>
   	</div>
@@ -175,7 +175,7 @@
       		</div>
       		<div class="modal-footer modalstyle">
         		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        		<button type="button" class="btn btn-success" id="adminloginbutton">Log In</button>
+        		<button type="button" class="btn btn-success" id="adminloginbutton" href='admin.php'>Log In</button>
       		</div>
     	</div>
   	</div>

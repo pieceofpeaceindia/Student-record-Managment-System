@@ -27,7 +27,7 @@
 			        	<a class="nav-link" href="#facultylogin" style="color: #fff;" data-toggle="modal">Edit<span class="sr-only">(current)</span></a>
 			      	</li>
 			      	<li class="nav-item">
-			       		<a class="nav-link" href="#adminlogin" style="color: #fff;" data-toggle="modal">Logout</a>
+			       		<a class="nav-link" href="index.php" style="color: #fff;">Logout</a>
 			      	</li>
 			    </ul>
 		  </div>

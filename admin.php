@@ -27,7 +27,7 @@
 			        	<a class="nav-link" href="#adminsettings" style="color: #fff;" data-toggle="modal">Settings<span class="sr-only">(current)</span></a>
 			      	</li>
 			      	<li class="nav-item">
-			       		<a class="nav-link" href="#adminlogin" style="color: #fff;" data-toggle="modal">Logout</a>
+			       		<a class="nav-link" href="index.php" style="color: #fff;">Logout</a>
 			      	</li>
 			    </ul>
 		  </div>
@@ -224,12 +224,14 @@
       				</div>
       			</div>
       			<div class="row">
-      				<div class="modal-title col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" style="color: teal; font-size: 20px;">Feedbacks / Messeges</div>
-      				<center>
-      				<div data-spy="scroll" class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8" id="feedbacks" data-offset="0">
+      				<div class="modal-title col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" style="color: teal; font-size: 20px;">
+      					<p>Feedbacks / Messeges</p>
+      				</div>
+      			</div>
+      			<div class="row text-center">
+      				<div data-spy="scroll" class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" id="feedbacks" data-offset="0">
       					
       				</div>
-      				</center>
       			</div>
       		</div>
       		<div class="modal-footer modalstyle">
@@ -319,14 +321,14 @@
 		      				<form class="form-inline my-2 my-lg-0" id="datefilterform">
 		      					<input class="form-control mr-sm-2" type="date" name="firstdate" id="firstdate" placeholder="Select First Date" required>
 		      					<input class="form-control mr-sm-2" type="date" name="seconddate" id="seconddate" placeholder="Select Second Date" max="<?php echo date("y-m-d");?>" required>
-		      					<button class="btn-sm" type="submit" title="Date Filter" id="datefilterbutton" name="datefilterbutton">Date Filter
+		      					<button class="btn-sm" type="button" title="Date Filter" id="datefilterbutton" name="datefilterbutton">Date Filter
 						      	</button>
 		      				</form>     						
       					</div>
       					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 		      				<form class="form-inline my-2 my-lg-0" id="precentagefilterform">
 		      					<input class="form-control mr-sm-2" type="number" name="percent" id="percent" placeholder="Select Percentage Threshold" max="100" min="0" required>
-		      					<button class="my-2 my-sm-2 btn-sm" type="submit" title="Percentage Filter" name="percentagefilterbutton" id="percentagefilterbutton">Percentage Filter</button>
+		      					<button class="my-2 my-sm-2 btn-sm" type="button" title="Percentage Filter" name="percentagefilterbutton" id="percentagefilterbutton">Percentage Filter</button>
 		      				</form>      						
       					</div>
       					</center>

@@ -14,10 +14,11 @@ $(document).ready(function(){
 			url:"ajax.php",
 			data : dataString,
 			success : function(result){
-				alert("form submitted");
+				// alert("form submitted");
 				document.getElementById('facultyloginform').reset();
-				document.getElementById("mmsg").innerHTML='<h3 class="alert alert-danger">Password are not same</h3>';
-				document.getElementById("successmmsg").innerHTML=result;
+				// document.getElementById("mmsg").innerHTML='<h3 class="alert alert-danger">Password are not same</h3>';
+				// document.getElementById("successmmsg").innerHTML=result;
+				window.open('faculty.php');
 			}
 		});			
 	});
@@ -116,8 +117,9 @@ $(document).ready(function(){
 			url:"ajax.php",
 			data : dataString,
 			success : function(result){
-				alert("form submitted");
+				// alert("form submitted");
 				document.getElementById('adminloginform').reset();
+				window.open('admin.php');
 			}
 		});			
 	});
@@ -267,6 +269,19 @@ $("#attendancesem").html('<option value="default" selected>Select Semester</opti
 		var branch = $("#subfilterbranch").val();
 		var year =$("#subfilteryear").val();
 		var subject =$("#subselect").val();
+		if (subject=='default' ) {
+			var action="showmarks";
+			var action="showattendance";
+			$.ajax({
+				type:"POST",
+				url:"ajax.php",
+				data:{action:action,year:year,branch:branch},
+				success:function(result){
+					$('#attendancemodal').modal('show');
+					$("#attendancedatadiv").html(result);
+				}
+			});
+		}
 		var action ="thissubject";
 		$.ajax({
 			type:"POST",
@@ -316,7 +331,6 @@ $("#attendancesem").html('<option value="default" selected>Select Semester</opti
 		var branch= $("#branchmarks").val();
 		var year =$("#yearmarks").val();
 		var subject = $("#sbjectselect").val();
-		// console.log(branch+year+subject);
 		var action ="showthismuch";
 		$.ajax({
 			type:"POST",
@@ -326,6 +340,14 @@ $("#attendancesem").html('<option value="default" selected>Select Semester</opti
 				$("#marksdiv").html(result);
 			}
 		});
+	});
+
+	$("#datefilterbutton").click(function(){
+		var firstdate = $("#firstdate").val();
+		var lastdate = $("#seconddate").val();
+		if (firstdate ) {
+
+		}
 	});
 
 	$("#feedsubmit").click(function(){
@@ -344,6 +366,22 @@ $("#attendancesem").html('<option value="default" selected>Select Semester</opti
 				document.getElementById("feedbackform").reset();
 			}
 		});
+	});
+
+	$("#datefilterbutton").click(function(){
+		var filterform =$("#datefilterform");
+		if (!filterform[0].checkValidity()) {
+			filterform[0].reportValidity();
+			return;
+		}
+	});
+
+	$("#percentagefilterbutton").click(function(){
+		var filterform =$("#precentagefilterform");
+		if (!filterform[0].checkValidity()) {
+			filterform[0].reportValidity();
+			return;
+		}
 	});
 
 	$("#saveattendance").click(function(){
