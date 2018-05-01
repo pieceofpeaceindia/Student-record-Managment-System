@@ -17,7 +17,7 @@
 <body style="background-color:aliceblue;">
 	<header class="fixed-top">
 		<nav class="navbar navbar-expand-lg navbar-light" style="background: linear-gradient(45deg, #1de099, #1dc8cd);">
-  			<a class="navbar-brand" href="#" style="font-family: 'Itim', cursive; font-weight: bold; font-size: 20px;">Student Record Managment System</a>
+  			<a class="navbar-brand" href="#" style="font-family: 'Itim', cursive; font-weight: bold; font-size: 17px;">Student Record Management System</a>
   			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     		<span class="navbar-toggler-icon"></span>
   			</button>
@@ -36,7 +36,7 @@
 	<div class="admin_main_div">
 		<div class="row" id="admindiv">
 			<div class="col-xl-12 col-lg-12col-md-12 col-sm-12 col-12" id="firstdiv">
-				<h3 style="padding-top: 40px; font-family: 'Nunito', cursive; font-weight:bolder;">Grretings for the day! <br>Mr. Purnendu</h3>
+				<h3 style="padding-top: 40px; font-family: 'Nunito', cursive; font-weight:bolder;">Greetings for the day! <br>Mr. Purnendu</h3>
 				<span class="sectiondivider"></span>
 				<div class="row facultypage container">
 					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
@@ -99,7 +99,7 @@
 			    <div class="container lastdiv">
 			    	<div class="row" style="font-family: 'Nunito', cursive; font-size: 25px;">
 			    		<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 float-right">
-			    			<p><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;<?php echo date("l").",&nbsp;"; echo date("Y-m-d"); ?></p>
+			    			<p><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;<?php date_default_timezone_set('Asia/Calcutta'); echo date("l").",&nbsp;"; echo date("Y-m-d"); ?></p>
 			    		</div>
 			    		<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 float-left">
 			    			<p><i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;<?php 

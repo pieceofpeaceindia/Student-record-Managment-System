@@ -1,5 +1,5 @@
 /*
-Theme Name: StudentManagmentSystem
+Theme Name: StudentManagementSystem
 Author: Vivek Kumar Gupta
 */
 
@@ -15,11 +15,11 @@ font-family: "Itim", sans-serif;
 }
 .maindivtext{
 	padding-top: 10px;
-	padding-right:10px; 
+	padding-right:10px;
 	padding-left:10px;
 }
 .modalheading{
-    margin-top:5px; 
+    margin-top:5px;
     color:teal;
     border-top:2px dashed teal;
     padding-top: 5px;
@@ -71,7 +71,7 @@ font-family: "Itim", sans-serif;
     border-radius: 20px;
     padding: 8px 5px;
     background-color: teal;
-    color: ghostwhite;    
+    color: ghostwhite;
 }
 
 .iconsixe{
@@ -97,7 +97,7 @@ font-family: "Itim", sans-serif;
 }
 
 .modalstyle{
-	background-color: ghostwhite;	
+	background-color: ghostwhite;
 }
 
 .admin_main_div{
