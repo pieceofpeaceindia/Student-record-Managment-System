@@ -1,3 +1,9 @@
+<?php
+	session_start();
+ 	if(!isset($_SESSION["admin"])){
+ 		header("location:index.php");
+ 	}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,7 +33,7 @@
 			        	<a class="nav-link" href="#adminsettings" style="color: #fff;" data-toggle="modal">Settings<span class="sr-only">(current)</span></a>
 			      	</li>
 			      	<li class="nav-item">
-			       		<a class="nav-link" href="index.php" style="color: #fff;">Logout</a>
+			       		<a class="nav-link" href="logout.php" style="color: #fff;">Logout</a>
 			      	</li>
 			    </ul>
 		  </div>
@@ -165,7 +171,7 @@
 	<footer class="sticky-bottom">
 		<div class="site_footer">
 			<center>
-				<p class="copyrighttext" style="padding-bottom: 20px;">
+				<p class="copyrighttext" style="padding-bottom: 20px; margin-bottom: 0px;">
 					&copy; THDC IHET || <?php echo date('Y');?> || <a href="#developermodal" data-toggle="modal">Team</a>
 				</p>
 			</center>
@@ -235,7 +241,7 @@
       			</div>
       		</div>
       		<div class="modal-footer modalstyle">
-        		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        		<button type="button" class="btn btn-danger dismissbtn" data-dismiss="modal">Close</button>
       		</div>
     	</div>
   	</div>
@@ -288,7 +294,7 @@
       			</div>
       		</div>
       		<div class="modal-footer modalstyle">
-        		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        		<button type="button" class="btn btn-danger dismissbtn" data-dismiss="modal">Close</button>
       		</div>
     	</div>
   	</div>
@@ -339,7 +345,7 @@
       			</div>
       		</div>
       		<div class="modal-footer modalstyle">
-        		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        		<button type="button" class="btn btn-danger dismissbtn" data-dismiss="modal">Close</button>
         		<button type="button" class="btn btn-success" id="printstatus">Print</button>
       		</div>
     	</div>
@@ -369,7 +375,7 @@
       			</div>
       		</div>
       		<div class="modal-footer modalstyle">
-        		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        		<button type="button" class="btn btn-danger dismissbtn" data-dismiss="modal">Close</button>
         		<button type="button" class="btn btn-success" id="printmarksstatus">Print</button>
       		</div>
     	</div>

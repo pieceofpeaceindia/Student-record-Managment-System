@@ -639,4 +639,55 @@
 					</table>';
 		echo $output;
 	}
+
+	function loginadmin(){
+		global $conn;
+		$name = mysqli_real_escape_string($conn, $_POST["adminusername"]);
+		$pass = mysqli_real_escape_string($conn, $_POST["adminpassword"]);
+		$options = [
+		    'cost' => 10,
+		];
+		$hash = password_hash($pass, PASSWORD_BCRYPT, $options);
+		// echo $hash;
+		$query = "SELECT * FROM admincredentials
+					WHERE adminid='$name'";
+		if (mysqli_query($conn,$query)) {
+			$result=mysqli_query($conn,$query);
+			$row=mysqli_fetch_array($result);
+			$strdpass = $row["adminpass"];
+		}
+		if (password_verify($pass, $strdpass)) {
+			$_SESSION["admin"] = $row["adminid"];
+			$_SESSION["mail"] =$row["adminemail"];
+			$_SESSION["login"]= $row["lastlogin"];
+			echo "success";
+		} else {
+			echo 'Invalid password.';
+		}
+	}
+
+	function loginfaculty(){
+		global $conn;
+		$name = mysqli_real_escape_string($conn, $_POST["faultyusername"]);
+		$pass = mysqli_real_escape_string($conn, $_POST["facultypassword"]);
+		$options = [
+		    'cost' => 10,
+		];
+		$hash = password_hash($pass, PASSWORD_BCRYPT, $options);
+		// echo $hash;
+		$query = "SELECT * FROM facultydetails
+					WHERE username='$name'";
+		if (mysqli_query($conn,$query)) {
+			$result=mysqli_query($conn,$query);
+			$row=mysqli_fetch_array($result);
+			$strdpass = $row["facultypassword"];
+		}
+		if (password_verify($pass, $strdpass)) {
+			$_SESSION["name"] = $row["facultyname"];
+			$_SESSION["id"] =$row["id"];
+			echo "success";
+		} else {
+			echo 'Invalid password.';
+		}
+	}
 ?>

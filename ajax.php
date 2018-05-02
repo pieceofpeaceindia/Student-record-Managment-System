@@ -1,8 +1,15 @@
 <?php
+	session_start();
 	require 'functions.php';
 	if(isset($_POST["action"]))
 	{
 		switch ($_POST["action"]) {
+			case 'facultylogin':
+				loginfaculty();
+				break;
+			case 'adminlogin':
+				loginadmin();
+				break;
 			case 'selectinput':
 				changeselectinput();
 				break;

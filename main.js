@@ -14,11 +14,42 @@ $(document).ready(function(){
 			url:"ajax.php",
 			data : dataString,
 			success : function(result){
-				// alert("form submitted");
+				if (result=="success") {
+					window.location.href="faculty.php";
+				}else{
+					$('#facultyloginalert').html(result);
+					window.setTimeout(givedealy, 2000);
+					function givedealy(){
+						$('#facultyloginalert').html('');
+					}
+				}
 				document.getElementById('facultyloginform').reset();
-				// document.getElementById("mmsg").innerHTML='<h3 class="alert alert-danger">Password are not same</h3>';
-				// document.getElementById("successmmsg").innerHTML=result;
-				window.open('faculty.php');
+			}
+		});			
+	});
+
+	$("#adminloginbutton").click(function(){
+		var adminform =$("#adminloginform");
+		if(!adminform[0].checkValidity()){
+			adminform[0].reportValidity();
+			return;
+		}
+		var dataString = 'action=adminlogin&' + $("#adminloginform").serialize();
+		$.ajax({
+			type:"POST",
+			url:"ajax.php",
+			data : dataString,
+			success : function(result){
+				if (result=="success") {
+					window.location.href="admin.php"
+				}else{
+					$('#adminloginalert').html(result);
+					window.setTimeout(givedealy, 2000);
+					function givedealy(){
+						$('#adminloginalert').html('');
+					}
+				}
+				document.getElementById('adminloginform').reset();
 			}
 		});			
 	});
@@ -103,25 +134,6 @@ $(document).ready(function(){
 				}
 			}
 		})
-	});
-
-	$("#adminloginbutton").click(function(){
-		var adminform =$("#adminloginform");
-		if(!adminform[0].checkValidity()){
-			adminform[0].reportValidity();
-			return;
-		}
-		var dataString = 'action=adminlogin&' + $("#adminloginform").serialize();
-		$.ajax({
-			type:"POST",
-			url:"ajax.php",
-			data : dataString,
-			success : function(result){
-				// alert("form submitted");
-				document.getElementById('adminloginform').reset();
-				window.open('admin.php');
-			}
-		});			
 	});
 
 	function printElement(elem) {

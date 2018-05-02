@@ -1,3 +1,9 @@
+<?php
+session_start();
+if(!isset($_SESSION["id"])){
+	header("location:index.php");
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,10 +30,10 @@
 		  	<div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
 			    <ul class="nav justify-content-end" style="padding-right: 100px;font-family: 'Itim', cursive; font-size: 20px;">
 			      	<li class="nav-item active">
-			        	<a class="nav-link" href="#facultylogin" style="color: #fff;" data-toggle="modal">Edit<span class="sr-only">(current)</span></a>
+			        	<a class="nav-link" href="#facultypage" style="color: #fff;" data-toggle="modal">Edit<span class="sr-only">(current)</span></a>
 			      	</li>
 			      	<li class="nav-item">
-			       		<a class="nav-link" href="index.php" style="color: #fff;">Logout</a>
+			       		<a class="nav-link" href="logout.php" style="color: #fff;">Logout</a>
 			      	</li>
 			    </ul>
 		  </div>
@@ -36,14 +42,14 @@
 	<div class="admin_main_div">
 		<div class="row" id="admindiv">
 			<div class="col-xl-12 col-lg-12col-md-12 col-sm-12 col-12" id="firstdiv">
-				<h3 style="padding-top: 40px; font-family: 'Nunito', cursive; font-weight:bolder;">Greetings for the day! <br>Mr. Purnendu</h3>
+				<h3 style="padding-top: 40px; font-family: 'Nunito', cursive; font-weight:bolder;">Greetings for the day! <br><?php echo $_SESSION["name"];?></h3>
 				<span class="sectiondivider"></span>
 				<div class="row facultypage container">
 					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
 						<p style="font-size: 50px;"><i class="fa fa-graduation-cap float-right"></i></p>
 					</div>
 					<div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8">
-						<h5>Hello Mr. Purnendu, here you can mark the attendance and add marks of the student by selecting branch, year and respective button.</h5>
+						<h5>Hello <?php echo $_SESSION["name"];?>, here you can mark the attendance and add marks of the student by selecting branch, year and respective button.</h5>
 					</div>
 				</div>
 				<div id="facultypagediv" class="container col-lg-8">
@@ -114,7 +120,7 @@
 	<footer id="footer_faculty">
 		<div class="site_footer">
 			<center>
-				<p class="copyrighttext" style="padding-bottom: 20px;">
+				<p class="copyrighttext" style="padding-bottom: 20px;margin-bottom: 0px;">
 					&copy; THDC IHET || <?php echo date('Y');?> || <a href="#developermodal" data-toggle="modal">Team</a>
 				</p>
 			</center>
@@ -131,31 +137,49 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="facultylogin" tabindex="-1" role="dialog" aria-labelledby="facultyloginTitle" aria-hidden="true" style="background: linear-gradient(45deg, #1de099, #1dc8cd);">
- 	<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal fade" id="facultypage" tabindex="-1" role="dialog" aria-labelledby="facultypageTitle" aria-hidden="true" style="background: linear-gradient(45deg, #1de099, #1dc8cd);">
+ 	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     	<div class="modal-content">
       		<div class="modal-header  modalstyle">
-	        	<h5 class="modal-title" id="Facultyloginmodaltitle">Faculty Login</h5>
+	        	<h5 class="modal-title" id="facultypagemodaltitle">Manage Account</h5>
 	        	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          	<span aria-hidden="true">&times;</span>
 	        	</button>
       		</div>
       		<div class="modal-body">
-        		<form id="facultyloginform">
-        			<div class="form-group">
-        				<input class="form-control" type="text" name="faultyusername" id="faultyusername" placeholder="Your User Name">
-        			</div>
-        			<div class="form-group">
-        				<input class="form-control" type="password" name="facultypassword" id="facultypassword" placeholder="Your Password">
-        			</div>
-        		</form>
-        		<div id="facultyloginalert">
-        			
-        		</div>
+      			<div class="row">
+      				<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+      					<p class="modal-title" style="color: teal; font-size: 20px;">Change Password</p>
+      					<div id="facultychangepassmsg">
+      						
+      					</div>
+      					<br>
+		        		<form id="changefacultypassform">
+		        			<div class="form-group">
+		        				<input class="form-control" type="password" name="facultypreviouspass" id="facultypreviouspass" placeholder="Old Password" required>
+		        			</div>
+		        			<div class="form-group">
+		        				<input class="form-control" type="password" name="facultynewpass" id="facultynewpass" placeholder="New Password" required>
+		        			</div>
+		        			<button type="button" class="btn btn-sm" id="changefacultypass">Change password</button>
+		        		</form>
+		        		<br><br>
+      				</div>
+	        		<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+	        			<p class="modal-title" style="color: teal; font-size: 20px;">Add a trusted device</p>
+      					<br>
+      					<div id="lastlogin">
+      						<input class="form-control" type="text" name="trusteddevice" id="trusteddevice" placeholder="Add device Mac Address like 28-F1-0E-3F-7C-80" required>
+      					</div>
+      					<p style="color: teal; font-size: 15px;">
+      						You can add only one device, if you change the device it will overwrite the previous one.
+      					</p>
+      					<button type="button" class="btn btn-sm" name="updatedevice" id="updatedevice">Add Device</button>
+	        		</div>
+      			</div>
       		</div>
       		<div class="modal-footer modalstyle">
-        		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        		<button type="button" class="btn btn-success" id="facultyloginbutton">Log In</button>
+        		<button type="button" class="btn btn-success dismissbtn" data-dismiss="modal">Close</button>
       		</div>
     	</div>
   	</div>
@@ -208,7 +232,7 @@
       			</div>
       		</div>
       		<div class="modal-footer modalstyle">
-        		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        		<button type="button" class="btn btn-success dismissbtn" data-dismiss="modal">Close</button>
       		</div>
     	</div>
   	</div>
@@ -248,7 +272,7 @@
       			</div>
       		</div>
       		<div class="modal-footer modalstyle" id="submitmarksmodalfooter">
-        		<button type="button" class="btn btn-secondary" id="savemarks" value="">Save Marks</button>
+        		<button type="button" class="btn btn-success dismissbtn" id="savemarks" value="">Save Marks</button>
       		</div>
     	</div>
   	</div>

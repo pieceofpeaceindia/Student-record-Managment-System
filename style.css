@@ -59,7 +59,7 @@ font-family: "Itim", sans-serif;
 	color:ghostwhite;
 }
 
-.reply, .close, .updatemarks, #saveattendance,  #endofsession, #noend, #changeadminpass, #addmarksbutton, #attendancebutton, #feedsubmit, #addstudentbutton, #addfacultybutton, #viewattendancebutton, #viewmarksbutton{
+#printstatus, #printmarksstatus, .reply, .close, .updatemarks, #updatedevice, .dismissbtn, #changefacultypass, #saveattendance,  #endofsession, #noend, #changeadminpass, #addmarksbutton, #attendancebutton, #feedsubmit, #addstudentbutton, #addfacultybutton, #viewattendancebutton, #viewmarksbutton{
 	border: 0;
     border-radius: 20px;
     padding: 8px 30px;
@@ -108,12 +108,21 @@ font-family: "Itim", sans-serif;
     padding-top: 50px;
 }
 
-#addmarksbutton:hover, #attendancebutton:hover, #subjectfilter:hover, #percentagefilterbutton:hover, #datefilterbutton:hover ,#viewattendancebutton:hover, #viewmarksbutton:hover, .viewrecords:hover, .addfaculty:hover, .addstudent:hover, #feedsubmit:hover, #addstudentbutton:hover, #addfacultybutton:hover , .viewrecords:hover{
+#updatedevice:hover, #changefacultypass:hover ,#addmarksbutton:hover, #attendancebutton:hover, #subjectfilter:hover, #percentagefilterbutton:hover, #datefilterbutton:hover ,#viewattendancebutton:hover, #viewmarksbutton:hover, .viewrecords:hover, .addfaculty:hover, .addstudent:hover, #feedsubmit:hover, #addstudentbutton:hover, #addfacultybutton:hover , .viewrecords:hover{
 	cursor: pointer;
 }
 
-#facultypagediv, #addstudentdiv, #addfacultydiv, #viewrecordsdiv , #feedbacks{
+#facultypagediv, #addstudentdiv, #addfacultydiv, #viewrecordsdiv , #feedbacks {
 	background: linear-gradient(45deg, #1de099, #1dc8cd);
+}
+.textcenter{
+    position: absolute;
+    width: 100px;
+    height: 50px;
+    top: 50%;
+    left: 50%;
+    margin-left: -50px; /* margin is -0.5 * dimension */
+    margin-top: -25px;
 }
 
 .facultypage{
