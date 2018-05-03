@@ -695,13 +695,26 @@
 		global $conn;
 		$username = mysqli_real_escape_string($conn, $_POST["username"]);
 		$emailid = mysqli_real_escape_string($conn, $_POST["useremail"]);
+		$usertype = mysqli_real_escape_string($conn , $_POST["usertype"]);
+		// die($usertype);
 		$uniquecode=md5(uniqid(rand()));
 		$hash=base64_encode($uniquecode);
 		// $hash = password_hash($uniquecode, PASSWORD_BCRYPT, $options);
 		// die($hash);
-		$checkexistance ="SELECT * FROM facultydetails, admincredentials
-						WHERE facultydetails.emailid='$emailid' OR facultydetails.username='$username' 
-								OR admincredentials.adminemail='$emailid' OR admincredentials.adminid='$username' " ;
+		if ($usertype==="admin") {
+			// die("admin hu main");
+		$checkexistance ="SELECT * FROM admincredentials
+						WHERE adminemail='$emailid' AND adminid='$username' " ;
+		}else{
+			if ($usertype==="faculty") {
+				// die("faculty hu main");
+			$checkexistance ="SELECT * FROM facultydetails
+							WHERE emailid='$emailid' OR username='$username' " ;
+			}else{
+				die('<p class="text-danger">Please follow the correct path</p>');
+				// die();
+			}
+		}
 		// var_dump($checkexistance);
 		if (mysqli_query($conn,$checkexistance)){
 			if ($conn->connect_error) 
@@ -712,8 +725,14 @@
 					// var_dump($count_if_exsist);
 					if($count_if_exsist>0)
 					{
-						$store_token="UPDATE admincredentials, facultydetails SET admincredentials.passkey='$uniquecode' WHERE facultydetails.emailid='$emailid' OR facultydetails.username='$username' 
-								OR admincredentials.adminemail='$emailid' OR admincredentials.adminid='$username'";
+						if ($usertype==="admin") {
+						$store_token="UPDATE admincredentials SET passkey='$uniquecode' 
+									  WHERE  adminemail='$emailid' AND adminid='$username'";
+						}
+						if ($usertype==="faculty") {
+						$store_token="UPDATE facultydetails SET passkey='$uniquecode' 
+									  WHERE emailid='$emailid' AND username='$username'";
+						}
 						mysqli_query($conn, $store_token);
 						if ($conn->query($store_token) == TRUE){
 							// echo "no prblm";
@@ -820,10 +839,6 @@
 		}
 	}
 
-	function passwordrecover(){
-		global $conn;
-	}
-
 	function endofsession(){
 		echo '<p class="text-warning"> Academic session is declared to be end, please register new students</p>';
 	}
@@ -926,6 +941,35 @@
 			$result .='</td>';
 		}
 		return $result;
+	}
+
+	function passwordrecover(){
+		global $conn;
+		$newpass = mysqli_real_escape_string($conn, $_POST["newpass"]);
+		$recoverkey = mysqli_real_escape_string($conn, $_POST["recoverkey"]);
+		$usertype = mysqli_real_escape_string($conn, $_POST["uservalue"]);
+		$options = [
+		    'cost' => 12,
+		];
+		$hash = password_hash($newpass, PASSWORD_BCRYPT, $options);
+		if ($usertype === "admin") {
+			$changepasswordquery = "UPDATE admincredentials SET passkey='0', adminpass='$hash' 
+					  WHERE  passkey ='$recoverkey'";
+		}else{
+			if ($usertype === "faculty") {
+				$changepasswordquery = "UPDATE facultydetails SET passkey='0', facultypassword='$hash' 
+					  WHERE  passkey ='$recoverkey'";
+			}else{
+				die('<p class="text-danger">Something went wrong please try again later!</p>');
+			}
+		}
+		if(mysqli_query($conn,$changepasswordquery)){
+			if($conn->connect_error){
+				echo "Error";
+			}else{
+				echo '<p class="text-success"> Your Password has been updated successfully please login login again with new password</p>';
+			}
+		}
 	}
 
 ?>

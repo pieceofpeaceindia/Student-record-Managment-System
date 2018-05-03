@@ -44,20 +44,39 @@
 					    die("Connection failed: " . $conn->connect_error);
 					}
 
-					$sql=" SELECT * FROM admincredentials, facultydetails WHERE admincredentials.passkey='$decryptcode' OR facultydetails.passkey='$decryptcode'";
-					$result=mysqli_query($conn,$sql);
-					$row = $result->fetch_assoc();
-					$count_if_exsist=mysqli_num_rows(mysqli_query($conn,$sql));
-					if($count_if_exsist>0){	
+					$checkadmin=" SELECT * FROM admincredentials
+						   WHERE passkey='$decryptcode'";
+					$checkfaculty=" SELECT * FROM facultydetails
+						   WHERE passkey='$decryptcode'";
+					$resultadmin=mysqli_query($conn,$checkadmin);
+					$resultfaculty=mysqli_query($conn,$checkfaculty);
+					$rowadmin = $resultadmin->fetch_assoc();
+					$rowfaculty = $resultfaculty->fetch_assoc();
+					$count_if_exsist_admin=mysqli_num_rows(mysqli_query($conn,$checkadmin));
+					$count_if_exsist_faculty=mysqli_num_rows(mysqli_query($conn,$checkfaculty));
+					if(($count_if_exsist_faculty>0)||($count_if_exsist_admin>0)){	
         	?>
 			<center><br>
 			<div class="">
 	      			<p style="font-size: 18px; line-height: 18px; color: ghostwhite;">Please set new pass word here and remeber this one correctly!</p>
 	      	</div>
-			<div id="recoverpageerror">
-				
+			<div style="font-size: 18px; line-height: 18px; color: ghostwhite;" >
+				<p id="recoverpageerror"></p>
 			</div>
-	      	<form id="chnagerecoverform">
+	      	<form id="changerecoverform">
+	      	<?php
+	      		if ($count_if_exsist_faculty > 0) {
+	      	?>
+	      		<input type="hidden" name="uservalue" id="uservalue" value="faculty">
+	      	<?php		
+	      		}
+	      		if ($count_if_exsist_admin > 0) {
+	      	?>	
+	      		<input type="hidden" name="uservalue" id="uservalue" value="admin">
+	      	<?php
+	      		}
+	      	?>
+	      		<input type="hidden" name="recoverkey" id="recoverkey" value="<?php echo $decryptcode;?>">
 	      		<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">
 	      			<input class="form-control" type="password" name="newpass" id="newpass" placeholder="Enter a new password" required>
 	      		</div>
@@ -72,7 +91,7 @@
             	<center>
             		<br>
             		<h4 class="card-title text-danger">WARNING!</h4>
-                    <p class="card-text text-danger">The token has been expired please go back to home and try again !<p>
+                    <h4 class="card-text text-danger">The token has been expired please go back to home and try again !<h4>
                 </center>
 	      	<?php
 	      		}

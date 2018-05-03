@@ -35,6 +35,19 @@
 				
 			</div>
 	      	<form id="passwordrecoveryform">
+	      		<?php
+		      		if(isset($_GET["user"]))
+					{
+						$user=$_GET['user'];
+	      		?>
+	      				<input type="hidden" name="usertype" id="usertype" value="<?php echo $user;?>">
+	      		<?php
+	      			}else{
+	      		?>
+	      				<input type="hidden" name="usertype" id="usertype" value="faculty">
+	      		<?php
+	      			}
+	      		?>
 	      		<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">
 	      			<input class="form-control" type="text" name="username" id="username" placeholder="Enter your username" required>
 	      		</div>
@@ -67,64 +80,6 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="facultylogin" tabindex="-1" role="dialog" aria-labelledby="facultyloginTitle" aria-hidden="true" style="background: linear-gradient(45deg, #1de099, #1dc8cd);">
- 	<div class="modal-dialog modal-dialog-centered" role="document">
-    	<div class="modal-content">
-      		<div class="modal-header  modalstyle">
-	        	<h5 class="modal-title" id="Facultyloginmodaltitle">Faculty Login</h5>
-	        	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          	<span aria-hidden="true">&times;</span>
-	        	</button>
-      		</div>
-      		<div class="modal-body">
-        		<form id="facultyloginform">
-        			<div class="form-group">
-        				<input class="form-control" type="text" name="faultyusername" id="faultyusername" placeholder="Your User Name" required>
-        			</div>
-        			<div class="form-group">
-        				<input class="form-control" type="password" name="facultypassword" id="facultypassword" placeholder="Your Password" required>
-        			</div>
-        		</form>
-        		<div class="text-danger" id="facultyloginalert">
-        			
-        		</div>
-      		</div>
-      		<div class="modal-footer modalstyle">
-        		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        		<button type="button" class="btn btn-success" id="facultyloginbutton" href="faculty.php">Log In</button>
-      		</div>
-    	</div>
-  	</div>
-</div>
-<div class="modal fade" id="adminlogin" tabindex="-1" role="dialog" aria-labelledby="adminloginTitle" aria-hidden="true" style="background: linear-gradient(45deg, #1de099, #1dc8cd);">
- 	<div class="modal-dialog modal-dialog-centered" role="document">
-    	<div class="modal-content">
-      		<div class="modal-header modalstyle">
-	        	<h5 class="modal-title" id="adminloginmodaltitle">Admin Login</h5>
-	        	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          	<span aria-hidden="true">&times;</span>
-	        	</button>
-      		</div>
-      		<div class="modal-body">
-        		<form id="adminloginform">
-        			<div class="form-group">
-        				<input class="form-control" type="text" name="adminusername" id="adminusername" placeholder="Your User Name" required>
-        			</div>
-        			<div class="form-group">
-        				<input class="form-control" type="password" name="adminpassword" id="adminpassword" placeholder="Your Password" required>
-        			</div>
-        		</form>
-        		<div class="text-danger" id="adminloginalert">
-        			
-        		</div>
-      		</div>
-      		<div class="modal-footer modalstyle">
-        		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        		<button type="button" class="btn btn-success" id="adminloginbutton" href='admin.php'>Log In</button>
-      		</div>
-    	</div>
-  	</div>
-</div>
 <div class="modal fade" id="developermodal" tabindex="-1" role="dialog" aria-labelledby="developermodalTitle" aria-hidden="true" style="background: linear-gradient(45deg, #1de099, #1dc8cd);">
  	<div class="modal-dialog modal-dialog-centered" role="document">
     	<div class="modal-content">

@@ -68,6 +68,9 @@
 			case 'filter':
 				filterdata();
 				break;
+			case 'recover':
+				passwordrecover();
+				break;
 			default:
 				echo "<p class='alert alert-danger'>Something went wrong</p>";
 				break;

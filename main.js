@@ -1,6 +1,5 @@
 $(document).ready(function(){
 	console.log("no prblem in jquery");
-	getfeedback();
 	$('#addstudenterror').html('');
 	$("#facultyloginbutton").click(function(){
 		var facultyform =$("#facultyloginform");
@@ -275,6 +274,7 @@ $("#attendancesem").html('<option value="default" selected>Select Semester</opti
 				$("#attendancedatadiv").html(result);
 				$("#filteryear").val(year);
 				$("#filterbranch").val(branch);
+				document.getElementById('viewrecordform').reset();
 			}
 		});
 	});
@@ -337,6 +337,7 @@ $("#attendancesem").html('<option value="default" selected>Select Semester</opti
 			data:{action:action,year:year,branch:branch},
 			success:function(result){
 				$("#marksdiv").html(result);
+				document.getElementById('viewrecordform').reset();
 			}
 		});
 	});
@@ -546,23 +547,45 @@ $("#attendancesem").html('<option value="default" selected>Select Semester</opti
 		}
 	});
 
-	function getfeedback(){
-		var action = "showmsgs";
-		$.ajax({
-			type:"POST",
-			url:"ajax.php",
-			data: {action:action},
-			success:function(result){
-				// console.log(result);
-				document.getElementById("feedbacks").innerHTML=result;
+	$("#updatepass").click(function(){
+		var newpassword =$("#newpass").val();
+		var oldpassword =$("#confrmpass").val();
+		var recoverform =$("#changerecoverform");
+		if (!recoverform[0].checkValidity()) {
+			recoverform[0].reportValidity();
+			return;
+		}
+		if (newpassword===oldpassword) {
+			var dataString = 'action=recover&' + $("#changerecoverform").serialize();
+			$.ajax({
+				type:"POST",
+				url:"ajax.php",
+				data:dataString,
+				success:function(result){
+					$("#recoverpageerror").html(result);
+					window.setTimeout(givedealy,2000);
+					function givedealy(){
+						$("#recoverpageerror").html('');
+						document.getElementById('changerecoverform').reset();
+					}
+				}
+			});
+		}else{
+			$("#recoverpageerror").html('<p class="text-danger">Please write the same password in both the fields</p>');
+			window.setTimeout(givedealy,2000);
+			function givedealy(){
+				$("#recoverpageerror").html('');
+				document.getElementById('changerecoverform').reset();
 			}
-		});
-	}
+		}
+	});
 
-	document.getElementById("printstatus").onclick = function () {
+	$("#printstatus").click(function(){
 		printElement(document.getElementById("attendancediv"));
-	};
-	document.getElementById("printmarksstatus").onclick = function () {
+	});
+
+	$("#printmarksstatus").click(function () {
 		printElement(document.getElementById("marksdiv"));
-	};
+	});
+
 });  

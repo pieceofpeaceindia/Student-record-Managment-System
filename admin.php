@@ -23,7 +23,7 @@
 <body style="background-color:aliceblue;">
 	<header class="fixed-top">
 		<nav class="navbar navbar-expand-lg navbar-light" style="background: linear-gradient(45deg, #1de099, #1dc8cd);">
-  			<a class="navbar-brand" href="#" style="font-family: 'Itim', cursive; font-weight: bold; font-size: 20px;">Student Record Management System</a>
+  			<a class="navbar-brand" href="#" style="font-family: 'Itim', cursive; font-weight: bold; font-size: 18px;">Student Record Management System</a>
   			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     		<span class="navbar-toggler-icon"></span>
   			</button>
@@ -184,6 +184,21 @@
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.bundle.js"></script>
 <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript">
+	getfeedback();
+	function getfeedback(){
+		var action = "showmsgs";
+		$.ajax({
+			type:"POST",
+			url:"ajax.php",
+			data: {action:action},
+			success:function(result){
+				// console.log(result);
+				document.getElementById("feedbacks").innerHTML=result;
+			}
+		});
+	}
+</script>
 
 
 
@@ -234,7 +249,7 @@
       					<p>Feedbacks / Messeges</p>
       				</div>
       			</div>
-      			<div class="row text-center">
+      			<div class="row text-center" style="margin-right: 5px; margin-left: 5px;">
       				<div data-spy="scroll" class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" id="feedbacks" data-offset="0">
       					
       				</div>
@@ -321,6 +336,11 @@
 		      				<p></p>    						
 	  					</div>
 	      			</div>
+      				<div class="row text-center" id="subfilterdiv">
+	  					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+	  						<p class="text-warning">OR</p>    						
+	  					</div>
+	      			</div>
 	      			<div class="row">
 		      			<center>
       					<form class="form-inline my-2 my-lg-0" id="filterform">
@@ -328,7 +348,7 @@
 			      				<input type="hidden" name="filteryear" id="filteryear" value="">
 			      				<input type="hidden" name="filterbranch" id="filterbranch" value="">
 			      				<input class="form-control mr-sm-2" title="Enter first date limit" type="date" name="firstdate" id="firstdate" required>
-			      				<input class="form-control mr-sm-2" title="Enter second date" type="date" name="seconddate" id="seconddate" max="<?php echo date("y-m-d");?>" required>
+			      				<input class="form-control mr-sm-2" title="Enter second date" type="date" name="seconddate" id="seconddate" max="<?php echo date('y-m-d');?>" required>
 	      						<input class="form-control mr-sm-2" type="number" name="percent" id="percent" title="Select Percentage Threshold" max="100" min="0" required>
       							<button class="my-2 my-sm-2 btn-sm dismissbtn" type="button" title="Apply Filter" name="filterbutton" id="filterbutton">Apply Filter</button>
       						</div>

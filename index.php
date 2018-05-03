@@ -144,7 +144,7 @@
         			
         		</div>
         		<div class="text-warning">
-        			<a href="forgetpassword.php">Forget Password ?</a>
+        			<a href="forgetpassword.php?user=faculty">Forget Password ?</a>
         		</div>
       		</div>
       		<div class="modal-footer modalstyle">
@@ -176,7 +176,7 @@
         			
         		</div>
         		<div class="text-warning">
-        			<a href="forgetpassword.php">Forget Password ?</a>
+        			<a href="forgetpassword.php?user=admin">Forget Password ?</a>
         		</div>
       		</div>
       		<div class="modal-footer modalstyle">
