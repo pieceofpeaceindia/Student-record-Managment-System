@@ -827,4 +827,105 @@
 	function endofsession(){
 		echo '<p class="text-warning"> Academic session is declared to be end, please register new students</p>';
 	}
+
+	function filterdata(){
+		global $conn;
+		$output ='';
+		$firstdate = mysqli_real_escape_string($conn, $_POST["firstdate"]);
+		$seconddate = mysqli_real_escape_string($conn, $_POST["seconddate"]);
+		$percent = mysqli_real_escape_string($conn, $_POST["percent"]);
+		$year = mysqli_real_escape_string($conn, $_POST["filteryear"]);
+		$branch =mysqli_real_escape_string($conn, $_POST["filterbranch"]);	
+		$filterquery = "SELECT * FROM studentdetails
+							  WHERE studentbranch ='$branch' AND studentyear='$year' ";
+		$output .='<h4 class="text-center modalheading">'.$branch.'&nbsp;'.$year.'&nbsp;Year Attendance Status</h4>
+					<table class="table table-hover table-border text-center table-responsive-lg">
+						<thead class="tablehead">
+							<tr>
+								<td>Roll No</td>
+								<td>Attendance</td>
+								<td>Total Lecture</td>
+								<td>Percentage</td>
+							</tr>
+						</thead>
+						<tbody>
+						<input type="hidden" name="subfilterbranch" id="subfilterbranch" value="'.$branch.'">
+						<input type="hidden" name="subfilteryear" id="subfilteryear" value="'.$year.'">';
+		if(mysqli_query($conn,$filterquery)){
+			if($conn->connect_error){
+				echo "Unable to connect with db becuase of :".$conn->connect_error;
+			}else{
+				$getrowsno = mysqli_num_rows(mysqli_query($conn,$filterquery));
+				if($getrowsno>0){
+					$resulta=mysqli_query($conn,$filterquery);
+					while ($rowa =mysqli_fetch_array($resulta)){
+						$temp=$rowa["rollno"];
+						$output .='
+							<tr>					
+								<td>'.$rowa["rollno"].'</td>';
+						$getattendacestatusquery ="SELECT DISTINCT 	studentrollno, subjectcode FROM attendance
+												   WHERE year='$year' AND branch ='$branch' AND studentrollno='$temp'";
+						// die($getattendacestatusquery);
+						if(mysqli_query($conn,$getattendacestatusquery)){
+							if($conn->connect_error){
+								echo "Error";
+							}else{
+								$count_if_exsist=mysqli_num_rows(mysqli_query($conn,$getattendacestatusquery));
+								// var_dump($count_if_exsist);
+								if($count_if_exsist>0){
+									$result=mysqli_query($conn,$getattendacestatusquery);
+									while ($row =mysqli_fetch_array($result)) {
+										$currentrollno = $row["studentrollno"];
+										$countquery1= "SELECT COUNT(attendance) FROM attendance 
+														WHERE studentrollno='$currentrollno' AND (date BETWEEN '$firstdate' AND '$seconddate')";
+										$countquery2= "SELECT COUNT(attendance) FROM attendance 
+														WHERE studentrollno='$currentrollno' AND attendance='P'AND (date BETWEEN '$firstdate' AND '$seconddate')";
+										if(mysqli_query($conn,$getattendacestatusquery)){
+											if($conn->connect_error){
+												echo "Error";
+											}
+										}	
+										$rs = mysqli_query($conn, $countquery2);
+										$ds = mysqli_query($conn, $countquery1);
+										$resultb = mysqli_fetch_array($rs);
+										$resultc = mysqli_fetch_array($ds);
+										
+									}
+									$output .='
+								<td>'.$resultb[0].'</td>
+								<td>'.$resultc[0].'</td>
+								'.countpercentagewithfilter($resultb[0] ,$resultc[0] , $percent);
+								}else{
+									$output .='<h4 class="modalheading">Please try again later</h4>';
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		$output .='
+							</tr>				
+						</tbody>
+					</table>';
+		echo $output;	
+	}
+
+	function countpercentagewithfilter($x,$y,$z){
+		$result ='';
+		$z=(float)($z);
+		if($y==0){
+			$result ='<td class="text-warning">NA</td>';
+		}else{
+			$perct = (float)(($x/$y) * (100));
+			if($perct < $z){
+				$result = '<td class="text-danger">'.number_format((float)$perct, 2, '.', '');
+			}else{
+				$result = '<td class="text-success">'.number_format((float)$perct, 2, '.', '');
+			}
+			$result .='</td>';
+		}
+		return $result;
+	}
+
 ?>

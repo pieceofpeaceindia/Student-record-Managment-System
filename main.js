@@ -273,6 +273,8 @@ $("#attendancesem").html('<option value="default" selected>Select Semester</opti
 			success:function(result){
 				$('#attendancemodal').modal('show');
 				$("#attendancedatadiv").html(result);
+				$("#filteryear").val(year);
+				$("#filterbranch").val(branch);
 			}
 		});
 	});
@@ -354,12 +356,24 @@ $("#attendancesem").html('<option value="default" selected>Select Semester</opti
 		});
 	});
 
-	$("#datefilterbutton").click(function(){
+	$("#filterbutton").click(function(){
 		var firstdate = $("#firstdate").val();
 		var lastdate = $("#seconddate").val();
-		if (firstdate ) {
-
+		var threshold = $("#percent").val();
+		var filterform= $("#filterform");
+		var dataString ="action=filter&" + $("#filterform").serialize();
+		if(!filterform[0].checkValidity()){
+		filterform[0].reportValidity();
+		return;
 		}
+		$.ajax({
+			type:"POST",
+			url:"ajax.php",
+			data:dataString,
+			success:function(result){
+				$("#attendancedatadiv").html(result);
+			}
+		});
 	});
 
 	$("#feedsubmit").click(function(){
@@ -378,22 +392,6 @@ $("#attendancesem").html('<option value="default" selected>Select Semester</opti
 				document.getElementById("feedbackform").reset();
 			}
 		});
-	});
-
-	$("#datefilterbutton").click(function(){
-		var filterform =$("#datefilterform");
-		if (!filterform[0].checkValidity()) {
-			filterform[0].reportValidity();
-			return;
-		}
-	});
-
-	$("#percentagefilterbutton").click(function(){
-		var filterform =$("#precentagefilterform");
-		if (!filterform[0].checkValidity()) {
-			filterform[0].reportValidity();
-			return;
-		}
 	});
 
 	$("#saveattendance").click(function(){

@@ -65,6 +65,9 @@
 			case 'endofsession':
 				endofsession();
 				break;
+			case 'filter':
+				filterdata();
+				break;
 			default:
 				echo "<p class='alert alert-danger'>Something went wrong</p>";
 				break;

@@ -323,20 +323,16 @@
 	      			</div>
 	      			<div class="row">
 		      			<center>
-      					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-		      				<form class="form-inline my-2 my-lg-0" id="datefilterform">
-		      					<input class="form-control mr-sm-2" type="date" name="firstdate" id="firstdate" placeholder="Select First Date" required>
-		      					<input class="form-control mr-sm-2" type="date" name="seconddate" id="seconddate" placeholder="Select Second Date" max="<?php echo date("y-m-d");?>" required>
-		      					<button class="btn-sm" type="button" title="Date Filter" id="datefilterbutton" name="datefilterbutton">Date Filter
-						      	</button>
-		      				</form>     						
-      					</div>
-      					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-		      				<form class="form-inline my-2 my-lg-0" id="precentagefilterform">
-		      					<input class="form-control mr-sm-2" type="number" name="percent" id="percent" placeholder="Select Percentage Threshold" max="100" min="0" required>
-		      					<button class="my-2 my-sm-2 btn-sm" type="button" title="Percentage Filter" name="percentagefilterbutton" id="percentagefilterbutton">Percentage Filter</button>
-		      				</form>      						
-      					</div>
+      					<form class="form-inline my-2 my-lg-0" id="filterform">
+			      			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+			      				<input type="hidden" name="filteryear" id="filteryear" value="">
+			      				<input type="hidden" name="filterbranch" id="filterbranch" value="">
+			      				<input class="form-control mr-sm-2" title="Enter first date limit" type="date" name="firstdate" id="firstdate" required>
+			      				<input class="form-control mr-sm-2" title="Enter second date" type="date" name="seconddate" id="seconddate" max="<?php echo date("y-m-d");?>" required>
+	      						<input class="form-control mr-sm-2" type="number" name="percent" id="percent" title="Select Percentage Threshold" max="100" min="0" required>
+      							<button class="my-2 my-sm-2 btn-sm dismissbtn" type="button" title="Apply Filter" name="filterbutton" id="filterbutton">Apply Filter</button>
+      						</div>
+      					</form> 
       					</center>
       				</div>
       			</div>
