@@ -432,6 +432,8 @@ $("#attendancesem").html('<option value="default" selected>Select Semester</opti
 		var subject = $("#savemarks").val();
 		var branch = $("#marksbranch").val();
 		var year =$("#marksyear").val();
+		var whattodo = document.getElementsByName('dothis')[0].value;
+		// console.log(whattodo);
 		var ctonemarks=[];
 		var cttwomarks=[];
 		var assignmarks=[];
@@ -453,7 +455,7 @@ $("#attendancesem").html('<option value="default" selected>Select Semester</opti
 		$.ajax({
 			type:"POST",
 			url:"ajax.php",
-			data:{action:action,cttwomarks:cttwomarks,ctonemarks:ctonemarks,assignmarks:assignmarks,subject:subject,rollno:rollno,branch:branch,year:year},
+			data:{action:action,cttwomarks:cttwomarks,ctonemarks:ctonemarks,assignmarks:assignmarks,subject:subject,rollno:rollno,branch:branch,year:year,whattodo:whattodo},
 			success:function(result){
 				$("#addmarksdiv").html('<p class="text-success">Records have been updated successfully</p>');
 				window.setTimeout(givedealy,2000);
@@ -464,6 +466,60 @@ $("#attendancesem").html('<option value="default" selected>Select Semester</opti
 			}
 		});
 	});
+
+	$(".reply").click(function(){
+		console.log("text");
+		var msgid = $(this).val();
+		var action = "getfeedbackdata";
+		$.ajax({
+			type:"POST",
+			url:"ajax.php",
+			data:{action:action,msgid:msgid},
+			success:function(result){
+				var data=result.split(",");
+				$("#adminsettings").modal("toggle");
+				$("#replymodal").modal("show");
+				$("#sendersubject").val(data[1]);
+				$("#senderemail").val(data[0]);
+				$("#sendername").val(data[2]);
+				$("#msgid").val(data[3]);
+				// console.log(data[3]);
+			}
+		});
+	});
+
+	$("#reply").click(function(){
+		var replyform = $("#replyform");
+		if (!replyform[0].checkValidity()) {
+			replyform[0].reportValidity();
+			return;
+		}
+		var dataString = 'action=sendrply&' + $("#replyform").serialize();
+		console.log(dataString);
+		$.ajax({
+			type:"POST",
+			url:"ajax.php",
+			data:dataString,
+			success:function(result){
+				$("#replymodalmsg").html(result);
+				document.getElementById('replyform').reset();
+				getfeedback();
+			}
+		});	
+	});
+	
+	function getfeedback(){
+		var action = "showmsgs";
+		$.ajax({
+			type:"POST",
+			url:"ajax.php",
+			data: {action:action},
+			success:function(result){
+				// console.log(result);
+				document.getElementById("feedbacks").innerHTML=result;
+			}
+		});
+	}
 
 	$("#recoverpass").click(function(){
 		var passform =$("#passwordrecoveryform");

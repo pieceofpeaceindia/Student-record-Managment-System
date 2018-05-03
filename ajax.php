@@ -71,6 +71,12 @@
 			case 'recover':
 				passwordrecover();
 				break;
+			case 'getfeedbackdata':
+				getfeedbackdata();
+				break;
+			case 'sendrply':
+				sendmsg();
+				break;
 			default:
 				echo "<p class='alert alert-danger'>Something went wrong</p>";
 				break;

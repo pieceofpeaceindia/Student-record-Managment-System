@@ -397,4 +397,44 @@
     	</div>
   	</div>
 </div>
+<div class="modal fade" id="replymodal" tabindex="-1" role="dialog" aria-labelledby="replymodalTitle" aria-hidden="true" style="background: linear-gradient(45deg, #1de099, #1dc8cd);">
+ 	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    	<div class="modal-content">
+      		<div class="modal-header  modalstyle">
+	        	<h5 class="modal-title" id="replymodalmodaltitle">Reply Modal</h5>
+	        	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          	<span aria-hidden="true">&times;</span>
+	        	</button>
+      		</div>
+      		<div class="modal-body">
+      			<div class="row">
+      				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+      					<h4 class="modal-title" style="color: teal; font-size: 20px;">Write a reply</h4>
+      					<br>
+      					<div id="replymodalmsg">
+      						
+      					</div>
+		        		<form id="replyform">
+		        			<div class="form-group">
+		        				<input class="form-control" type="text" name="sendersubject" id="sendersubject" readonly>
+		        			</div>
+		        			<div class="form-group">
+		        				<input class="form-control" type="email" name="senderemail" id="senderemail" readonly>
+		        			</div>
+		        			<div class="form-group">
+		        				<textarea class="form-control" rows="4" placeholder="Enter Your reply" id="replymsg" name="replymsg" required></textarea>
+		        			</div>
+		        			<input type="hidden" name="sendername" id="sendername">
+		        			<input type="hidden" name="msgid" id="msgid">
+		        			<button type="button" class="btn btn-success btn-sm dismissbtn" id="reply">Reply</button>
+		        		</form>
+      				</div>
+      			</div>
+      		</div>
+      		<div class="modal-footer modalstyle">
+        		<button type="button" class="btn btn-danger dismissbtn" data-dismiss="modal">Close</button>
+      		</div>
+    	</div>
+  	</div>
+</div>
 </html>

@@ -156,8 +156,9 @@
 						{
 							$output .='<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 											<p>Name :&nbsp;'.$row["name"].'</p>
+											<p> Subject :&nbsp;'.$row["subject"].'</p>
 											<p> Messege :&nbsp;'.$row["messege"].'</p>
-											<button type="button" class="btn btn-sm reply" name="reply" value="'.$row["email"].'">Reply</button>
+											<button type="button" href="#replymodal" class="btn btn-sm reply" name="reply" value="'.$row["id"].'" data-toggle="modal">Reply</button>
 											<br>
 											<hr>
 									   </div>';
@@ -360,6 +361,9 @@
 		$sem = mysqli_real_escape_string($conn, $_POST["attendancesem"]);
 		$subject = mysqli_real_escape_string($conn, $_POST["attendancesubject"]);
 		$date = mysqli_real_escape_string($conn, $_POST["dateofattendance"]);
+		$firstsessional ="firstsessional";
+		$secondsessional ="secondsessional";
+		$assignment="assignment";
 		$getstudentsquery ="SELECT * FROM studentdetails
 							WHERE studentbranch='$branch' AND studentyear='$year' 
 							ORDER BY rollno ASC";
@@ -372,7 +376,7 @@
 					if($count_if_exsist>0){
 						$result=mysqli_query($conn,$getstudentsquery);
 						$output .='<p class="text-warning">If marks not available please set to zero</p>
-								   	<table class="table table-hover table-border text-center">
+								   	<table class="table table-hover table-border text-center table-responsive-lg">
 								   		<thead class="tablehead">
 								   			<tr>
 								   				<th>Name</th>
@@ -389,9 +393,12 @@
 						$output .='			<tr>
 												<td>'.$row["nameofstudent"].'</td>
 												<input type="hidden" name="rollno" value="'.$row["rollno"].'">
-												<td><input type="number" class="form-control" name="ctonemarks" max="30" min="0" value="0"></td>
-												<td><input type="number" class="form-control" name="cttwomarks" max="30" min="0" value="0"></td>
-												<td><input type="number" class="form-control" name="assignmarks" max="10" min="0" value="0"></td>
+												<td>'.checkmarks($row["rollno"], $year, $branch, $subject, $firstsessional);
+						$output .='				</td>
+												<td>'.checkmarks($row["rollno"], $year, $branch, $subject, $secondsessional);
+						$output .='				</td>
+												<td>'.checkmarks($row["rollno"], $year, $branch, $subject, $assignment);
+						$output .='				</td>
 											</tr>';
 						}
 						$output .='		</tbody>
@@ -402,6 +409,53 @@
 			}
 		}
 		echo $output;	
+	}
+
+	function checkmarks($roll, $year, $branch, $subject, $type){
+		global $conn;
+		$result = '';
+		// die($roll.$year.$branch.$subject.$type);
+		$checkexistance ="SELECT * FROM marks
+							WHERE subject='$subject' AND year='$year' AND branch='$branch' AND studentrollno=$roll";
+		// var_dump($checkexistance);
+		if (mysqli_query($conn, $checkexistance)) {
+			if ($conn->connect_error) {
+				echo "Connection Error : ". $conn->connect_error;
+			}else{
+				$count_if_exsist=mysqli_num_rows(mysqli_query($conn,$checkexistance));
+				if($count_if_exsist>=0){
+					$result=mysqli_query($conn,$checkexistance);
+					$row =mysqli_fetch_array($result);
+					if ($row[$type]>0) {
+						if ($type ==="firstsessional") {
+							$result = '<input type="number" class="form-control" name="ctonemarks" max="30" min="0" value="'.$row[$type].'" readonly >';	
+						}
+						if ($type ==="secondsessional") {
+							$result = '<input type="number" class="form-control" name="cttwomarks" max="30" min="0" value="'.$row[$type].'" readonly >';	
+						}
+						if ($type ==="assignment") {
+							$result = '<input type="number" class="form-control" name="assignmarks" max="10" min="0" value="'.$row[$type].'" readonly >';	
+						}
+							$result .='<input type="hidden" name="dothis" value="update">';
+					}else{
+						if ($type ==="firstsessional") {
+							$result = '<input type="number" class="form-control" name="ctonemarks" max="30" min="0" value="0" required>';	
+						}
+						if ($type ==="secondsessional") {
+							$result = '<input type="number" class="form-control" name="cttwomarks" max="30" min="0" value="0" required>';	
+						}
+						if ($type ==="assignment") {
+							$result = '<input type="number" class="form-control" name="assignmarks" max="10" min="0" value="0" required>';	
+						}
+						$result .='<input type="hidden" name="dothis" value="add">';
+					}
+					
+				}else{
+					$result = 'Something went wrong';
+				}
+			}
+		}
+		return $result;		
 	}
 
 	function saveattendance(){
@@ -463,6 +517,7 @@
 		$subject =mysqli_real_escape_string($conn,$_POST["subject"]);
 		$year =mysqli_real_escape_string($conn,$_POST["year"]);
 		$branch = mysqli_real_escape_string($conn, $_POST["branch"]);
+		$todo = mysqli_real_escape_string($conn, $_POST["whattodo"]);
 		foreach ($_POST["rollno"] as $rollno) {
 			$i=$i+1;
 			$roll[]=$rollno;
@@ -477,8 +532,17 @@
 			$assign[]=$assignmarks;
 		}
 		for ($j=0; $j <$i ; $j++) { 
-			$savemarksquery = "INSERT INTO marks(subject, studentrollno, firstsessional, secondsessional,assignment,attendance,year,branch)
+			if ($todo === "update") {
+				$savemarksquery = "UPDATE marks 
+								   SET firstsessional ='$ctone[$j]' , secondsessional ='$cttwo[$j]' , assignment ='$assign[$j]'
+								   WHERE subject ='$subject' AND studentrollno='$roll[$j]' AND year='$year' AND branch = '$branch'";
+			}else{
+				if ($todo === "add") {
+					$savemarksquery = "INSERT INTO marks(subject, studentrollno, firstsessional, secondsessional,assignment,attendance,year,branch)
 								VALUES ('$subject','$roll[$j]','$ctone[$j]','$cttwo[$j]','$assign[$j]','0','$year','$branch')";
+				}
+			}
+			
 			if (mysqli_query($conn, $savemarksquery)) {
 				if ($conn->connect_error) {
 					echo "Connection Error : ". $conn->connect_error;
@@ -534,7 +598,7 @@
 				$count_if_exsist=mysqli_num_rows(mysqli_query($conn,$marksfilterquery));
 				if($count_if_exsist>0){
 					$output .='<h4 class="text-center modalheading">'.$branch.'&nbsp;'.$year.'&nbsp;Year Marks Status</h4>
-								<table class="table table-hover table-border text-center">
+								<table class="table table-hover table-border text-center table-responsive-lg">
 									<thead class="tablehead">
 										<tr>
 											<td>Roll No</td>
@@ -968,6 +1032,72 @@
 				echo "Error";
 			}else{
 				echo '<p class="text-success"> Your Password has been updated successfully please login login again with new password</p>';
+			}
+		}
+	}
+
+	function getfeedbackdata(){
+		global $conn;
+		$output='';
+		$msgid = mysqli_real_escape_string($conn, $_POST["msgid"]);
+		$showfeed ="SELECT * FROM feedback
+					WHERE id='$msgid'";
+		if(mysqli_query($conn, $showfeed)){
+			if ($conn->connect_error) {
+				$output .="Connection Error : ". $conn->connect_error;
+			}else{
+				$count_if_exsist=mysqli_num_rows(mysqli_query($conn,$showfeed));
+				if($count_if_exsist>0){
+					$result=mysqli_query($conn,$showfeed);
+					$output .='<br>';
+					$row=mysqli_fetch_array($result);
+					echo $row["email"].','.$row["subject"].','.$row["name"].','.$row["id"];
+				}
+			}
+		}
+	}
+
+	function sendmsg(){
+		global $conn;
+		$subject = mysqli_real_escape_string($conn, $_POST["sendersubject"]);
+		$msg = mysqli_real_escape_string($conn, $_POST["replymsg"]);
+		$reciever = mysqli_real_escape_string($conn, $_POST["senderemail"]);
+		$username = mysqli_real_escape_string($conn, $_POST["sendername"]);
+		$msgid = mysqli_real_escape_string($conn, $_POST["msgid"]);
+		// echo $subject.$msg.$reciever;
+		require 'PHPMailer/PHPMailerAutoload.php';
+		$mail = new PHPMailer;
+
+		$mail->isSMTP();
+		$mail->Host = 'smtp.gmail.com';
+		$mail->SMTPAuth = true;
+		$mail->Username = 'vivekhrd330@gmail.com';
+		$mail->Password = '';
+		$mail->SMTPSecure = 'tls';
+
+		$mail->From = 'vivekhrd330@gmail.com';
+		$mail->FromName = 'Vivek Kumar Gupta';
+		$mail->addAddress($reciever,$username );
+
+		$mail->addReplyTo('vivekhrd330@gmail.com', 'Vivek');
+
+		$mail->WordWrap = 50;
+		$mail->isHTML(true);
+
+		$mail->Subject = $subject;
+		$mail->Body    = $msg;
+
+		if(!$mail->send()) {
+		   echo 'Message could not be sent.';
+		   echo 'Mailer Error: ' . $mail->ErrorInfo;
+		   exit;
+		}else{
+			$deletemsg = " DELETE FROM feedback
+						  WHERE id= '$msgid' ";
+			if ($conn->query($deletemsg) === TRUE) {
+			    echo '<p class="text-success">Your response to query is mailed, Thank You!</p>';
+			} else {
+			    echo "Error deleting record: " . $conn->error;
 			}
 		}
 	}
