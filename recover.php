@@ -17,23 +17,7 @@
 <body style="background-color:aliceblue;">
 	<header class="fixed-top">
 		<nav class="navbar navbar-expand-lg navbar-light" style="background: linear-gradient(45deg, #1de099, #1dc8cd);">
-  			<a class="navbar-brand" href="#" style="font-family: 'Itim', cursive; font-weight: bold; font-size: 18px;">Student Record Management System</a>
-  			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    		<span class="navbar-toggler-icon"></span>
-  			</button>
-		  	<div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-			    <ul class="nav justify-content-end" style="padding-right: 100px;font-family: 'Itim', cursive; font-size: 20px;">
-			      	<li class="nav-item active">
-			        	<a class="nav-link" href="#facultylogin" style="color: #fff;" data-toggle="modal">Faculty Login<span class="sr-only">(current)</span></a>
-			      	</li>
-			      	<li class="nav-item">
-			        	<!-- <a class="nav-link" href="#" style="color: #fff;">Link</a> -->
-			      	</li>
-			      	<li class="nav-item">
-			       		<a class="nav-link" href="#adminlogin" style="color: #fff;" data-toggle="modal">Admin Login</a>
-			      	</li>
-			    </ul>
-		  </div>
+  			<a class="navbar-brand" href="#" style="font-family: 'Itim', cursive; font-weight: bold; font-size: 20px;">Student Record Management System</a>
 		</nav>		
 	</header>
 	<div class="main_div">
@@ -42,73 +26,83 @@
 				<p class="maintext">Welcome<br>to<br>&quot;Student Record Managment System&quot;</p>
 			</div>
 		</div>
-		<h3 style="padding-top: 40px; font-family: 'Indie Flower', cursive; font-weight:bolder;">About Project</h3>
-		<span class="sectiondivider"></span>
-		<div class="row">
-			<p class="maindivtext">
-				A portal which is connected through Raspberry Pi and touch screen LCD. Faculty can login to the system and mark attendance in lecture through touch input. As the system is hosted on a server faculty can access the portal to add marks of the student, check the attendance of the student and check the status of the student failing to full fill the attendance criteria time to time.
-			</p>
-		</div>
-		<h3 style="padding-top: 50px; font-family: 'Indie Flower', cursive; font-weight:bolder;">Problem Statement</h3>
-		<span class="sectiondivider"></span>
-		<div class="row">
-			<p class="maindivtext">
-				Every Engineering college has numbers of student and managing their data i.e. marks and attendance involves paperwork and consumption of lots of paper, irrespective of paperwork there is also mental exercise for calculating attendance, setting threshold and finding student failing to fulfill the criteria.
-			</p>
-		</div>
-		<h3 style="padding-top: 50px; font-family: 'Indie Flower', cursive; font-weight:bolder;">Requirements</h3>
-		<span class="sectiondivider"></span>
-		<div class="row">
-			<p class="maindivtext">
-				An online portal should be made, where admin can add student details, add marks and check attendance. The portal consists of modules for sending mail and printing the details. For marking attendance there will be Raspberry Pi based microcomputer in every classroom which will take input through touch LCD screen.
-			</p>
+		<div id="facultypagediv" class="container col-lg-8">
+
+			<?php
+				$output='';
+				if(isset($_GET["passkey"]))
+				{
+					$servername = "localhost";
+					$username = "root";
+					$password = "";
+					$dbname = "majorproject";
+					$receivedcode=$_GET['passkey'];
+					$conn = new mysqli($servername, $username, $password, $dbname);
+					$decryptcode=base64_decode($receivedcode);
+					if ($conn->connect_error) 
+					{
+					    die("Connection failed: " . $conn->connect_error);
+					}
+
+					$sql=" SELECT * FROM admincredentials, facultydetails WHERE admincredentials.passkey='$decryptcode' OR facultydetails.passkey='$decryptcode'";
+					$result=mysqli_query($conn,$sql);
+					$row = $result->fetch_assoc();
+					$count_if_exsist=mysqli_num_rows(mysqli_query($conn,$sql));
+					if($count_if_exsist>0){	
+        	?>
+			<center><br>
+			<div class="">
+	      			<p style="font-size: 18px; line-height: 18px; color: ghostwhite;">Please set new pass word here and remeber this one correctly!</p>
+	      	</div>
+			<div id="recoverpageerror">
+				
+			</div>
+	      	<form id="chnagerecoverform">
+	      		<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">
+	      			<input class="form-control" type="password" name="newpass" id="newpass" placeholder="Enter a new password" required>
+	      		</div>
+	      		<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">
+	      			<input class="form-control" type="password" name="confrmpass" id="confrmpass" placeholder="Confirm password" required>
+	      		</div>
+	      	</form>
+	      	<button class="btn btn-sm dismissbtn" type="submit" title="Chnage Password" id="updatepass" name="updatepass">Change Password</button>&nbsp;&nbsp;
+	      	<?php
+	      		}else{
+	      	?>
+            	<center>
+            		<br>
+            		<h4 class="card-title text-danger">WARNING!</h4>
+                    <p class="card-text text-danger">The token has been expired please go back to home and try again !<p>
+                </center>
+	      	<?php
+	      		}
+	      	?>
+	      	<a href="index.php"><button class="btn btn-sm dismissbtn" type="submit" title="Home">Back to home</button></a>
+	      	</center>
+	      	<br>
+	      	<?php
+	      		}else {
+	      	?>
+            	<center>
+            		<br>
+            		<h4 class="card-title text-danger">WARNING!</h4>
+                    <p class="card-text text-danger">ONLY SPECIFIC USERS ARE AUTHORIZED TO THIS PAGE. THANK YOU<p>
+                    <div class="card-block">
+                        <a class="btn btn-success dismissbtn" href="http://localhost/majorproject/index.php">Get Back</a>
+                    </div>
+                    <br>
+                </center>            
+        	<?php
+        		}
+			?>
 		</div>
 	</div>
-	<footer class="sticky-bottom">
+	<br>
+	<footer id="footer_faculty">
 		<div class="site_footer">
-			<div class="row footertext">
-				<div class="col-lg-4 col-xl-4 col-md-6 col-sm-6 col-6">
-					<h4>Student Record Managment System</h4>
-					<p class="foocoltext">
-						Developed &amp; Designed by ECE Department.&nbsp;
-						<span class="d-none d-lg-block">Major Project Batch 2014-18</span>
-					</p>
-				</div>
-				<div class="col-lg-3 col-xl-3 col-md-6 col-sm-6 col-6">
-					<span class="foocolext">
-						<i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;THDC IHET<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tehri Garhwal, Uttarakhand <br><br>
-						<i class="far fa-envelope"></i>&nbsp;&nbsp;info@thdcihet.in<br><br>
-						<i class="fas fa-phone"></i>&nbsp;&nbsp;(+91) 1376 246850
-					</span>
-				</div>
-				<div class="col-lg-5 col-xl-5 col-md-12 col-sm-12 col-12">
-					<form id="feedbackform">
-						<div class="form-row">
-							<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">
-								<input class="form-control" type="text" name="feedname" id="feedname" placeholder="Your Name" required>
-							</div>
-							<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">
-								<input class="form-control" type="email" name="feedemail" id="feedeamil" placeholder="Your Email" required>
-							</div>							
-						</div>
-						<div class="form-group">
-							<input class="form-control" type="text" name="feedsubject" id="feedsubject" placeholder="Subject" required>	
-						</div>
-						<div class="form-group">
-							<textarea class="form-control" rows="2" placeholder="Message" id="feedbackmsg" name="feedbackmsg" required></textarea>
-						</div>
-					</form>
-					<center>
-						<button type="submit" title="Send Message" id="feedsubmit" name="feedsubmit">Send Message</button>
-					</center>
-				</div>
-			</div>
-			<hr>
-			<center>
-				<p class="copyrighttext" style="margin-bottom: 0px;">
+				<p class="copyrighttext text-center" style="padding-bottom: 10px; margin-bottom: 0px;">
 					&copy; THDC IHET || <?php echo date('Y');?> || <a href="#developermodal" data-toggle="modal">Team</a>
 				</p>
-			</center>
 		</div>
 	</footer>
 </body>
@@ -143,13 +137,10 @@
         		<div class="text-danger" id="facultyloginalert">
         			
         		</div>
-        		<div class="text-warning">
-        			<a href="forgetpassword.php">Forget Password ?</a>
-        		</div>
       		</div>
       		<div class="modal-footer modalstyle">
-        		<button type="button" class="btn btn-secondary dismissbtn" data-dismiss="modal">Close</button>
-        		<button type="button" class="btn btn-success dismissbtn" id="facultyloginbutton" href="faculty.php">Log In</button>
+        		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        		<button type="button" class="btn btn-success" id="facultyloginbutton" href="faculty.php">Log In</button>
       		</div>
     	</div>
   	</div>
@@ -175,13 +166,10 @@
         		<div class="text-danger" id="adminloginalert">
         			
         		</div>
-        		<div class="text-warning">
-        			<a href="forgetpassword.php">Forget Password ?</a>
-        		</div>
       		</div>
       		<div class="modal-footer modalstyle">
-        		<button type="button" class="btn btn-secondary dismissbtn" data-dismiss="modal">Close</button>
-        		<button type="button" class="btn btn-success dismissbtn" id="adminloginbutton" href='admin.php'>Log In</button>
+        		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        		<button type="button" class="btn btn-success" id="adminloginbutton" href='admin.php'>Log In</button>
       		</div>
     	</div>
   	</div>

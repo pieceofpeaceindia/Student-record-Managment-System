@@ -204,8 +204,8 @@
       					<div id="adminchangepassmsg">
       						
       					</div>
-      					<br>
 		        		<form id="changeadminpassform">
+		        			<input type="hidden" name="uid" id="uid" value="<?php echo $_SESSION["admin"];?>">
 		        			<div class="form-group">
 		        				<input class="form-control" type="password" name="adminpreviouspass" id="adminpreviouspass" placeholder="Old Password" required>
 		        			</div>

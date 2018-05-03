@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Student Record Managment</title>
+	<title>Forget Password</title>
 	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
@@ -17,7 +17,7 @@
 <body style="background-color:aliceblue;">
 	<header class="fixed-top">
 		<nav class="navbar navbar-expand-lg navbar-light" style="background: linear-gradient(45deg, #1de099, #1dc8cd);">
-  			<a class="navbar-brand" href="#" style="font-family: 'Itim', cursive; font-weight: bold; font-size: 18px;">Student Record Management System</a>
+  			<a class="navbar-brand" href="#" style="font-family: 'Itim', cursive; font-weight: bold; font-size: 20px;">Student Record Management System</a>
 		</nav>		
 	</header>
 	<div class="main_div">
@@ -28,41 +28,27 @@
 		</div>
 		<div id="facultypagediv" class="container col-lg-8">
 			<center><br>
+			<div class="">
+	      			<p style="font-size: 18px; line-height: 18px; color: ghostwhite;">We are sorry that you forget your password, please fill the given form and you will recieve a link through gmail to reset the password</p>
+	      	</div>
 			<div id="passwordrecoveryerror">
 				
 			</div>
 	      	<form id="passwordrecoveryform">
 	      		<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">
-	      			
+	      			<input class="form-control" type="text" name="username" id="username" placeholder="Enter your username" required>
 	      		</div>
 	      		<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">
-	      			
-	      		</div>
-	      		<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">
-	      			
-	      		</div>
-	      		<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12" id="subject_select">
-	      			
+	      			<input class="form-control" type="email" name="useremail" id="useremail" placeholder="Enter email address" required>
 	      		</div>
 	      	</form>
-	      	<button class="btn btn-sm dismissbtn" type="submit" title="" id="" name="">Recover Password</button>&nbsp;&nbsp;
-	      	<a href="index.php"><button class="btn btn-sm dismissbtn" type="submit" title="" id="" name="">Back to home</button></a>
+	      	<button class="btn btn-sm dismissbtn" type="submit" title="Recover Password" id="recoverpass" name="recoverpass">Recover Password</button>&nbsp;&nbsp;
+	      	<a href="index.php"><button class="btn btn-sm dismissbtn" type="submit" title="Home">Back to home</button></a>
 	      	</center>
 	      	<br>
 		</div>
 	</div>
-	<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">
-		
-	</div>
-	<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">
-		
-	</div>
-	<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">
-		
-	</div>
-	<div class="form-group col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12">
-		
-	</div>
+	<br>
 	<footer id="footer_faculty">
 		<div class="site_footer">
 				<p class="copyrighttext text-center" style="padding-bottom: 10px; margin-bottom: 0px;">

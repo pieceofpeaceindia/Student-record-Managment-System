@@ -466,6 +466,88 @@ $("#attendancesem").html('<option value="default" selected>Select Semester</opti
 		});
 	});
 
+	$("#recoverpass").click(function(){
+		var passform =$("#passwordrecoveryform");
+		if (!passform[0].checkValidity()) {
+			passform[0].reportValidity();
+			return;
+		}
+		var dataString = 'action=recoverpass&' + $("#passwordrecoveryform").serialize();
+		$.ajax({
+			type:"POST",
+			url:"ajax.php",
+			data:dataString,
+			success:function(result){
+				$("#passwordrecoveryerror").html(result);
+			}
+		});
+	});
+
+	$("#changeadminpass").click(function(){
+		var changepassform =$("#changeadminpassform");
+		if (!changepassform[0].checkValidity()) {
+			changepassform[0].reportValidity();
+			return;
+		}
+		var dataString = 'action=changeadminpassword&' + $("#changeadminpassform").serialize();
+		$.ajax({
+			type: "POST",
+			url:"ajax.php",
+			data:dataString,
+			success:function(result) {
+				$("#adminchangepassmsg").html(result);
+				document.getElementById('changeadminpassform').reset();
+				window.setTimeout(givedealy,2000);
+				function givedealy(){
+				$('#adminchangepassmsg').html('');
+				}
+			}
+		});
+	});
+
+	$("#changefacultypass").click(function(){
+		var changepassform =$("#changefacultypassform");
+		if (!changepassform[0].checkValidity()) {
+			changepassform[0].reportValidity();
+			return;
+		}
+		var dataString = 'action=changefacultypassword&' + $("#changefacultypassform").serialize();
+		$.ajax({
+			type: "POST",
+			url:"ajax.php",
+			data:dataString,
+			success:function(result) {
+				$("#facultychangepassmsg").html(result);
+				document.getElementById('changefacultypassform').reset();
+				window.setTimeout(givedealy,2000);
+				function givedealy(){
+				$('#facultychangepassmsg').html('');
+				}
+			}
+		});
+	});
+
+	$("#endofsession").click(function(){
+		var action ="endofsession";
+		if (confirm("Are you sure !!")) {
+			$.ajax({
+				type:"POST",
+				url:"ajax.php",
+				data:{action:action},
+				success:function(result){
+					$("#adminchangepassmsg").html(result);
+					window.setTimeout(givedealy,2000);
+					function givedealy(){
+						$("#adminchangepassmsg").html('');
+						$("#adminsettings").modal("toggle");
+					}
+				}
+			});	
+		} else {
+		    $("#adminsettings").modal("toggle");
+		}
+	});
+
 	function getfeedback(){
 		var action = "showmsgs";
 		$.ajax({

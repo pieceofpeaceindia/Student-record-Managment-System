@@ -153,8 +153,8 @@ if(!isset($_SESSION["id"])){
       					<div id="facultychangepassmsg">
       						
       					</div>
-      					<br>
 		        		<form id="changefacultypassform">
+		        			<input type="hidden" name="facultyid" id="facultyid" value="<?php echo $_SESSION["id"]?>">
 		        			<div class="form-group">
 		        				<input class="form-control" type="password" name="facultypreviouspass" id="facultypreviouspass" placeholder="Old Password" required>
 		        			</div>

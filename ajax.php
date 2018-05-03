@@ -53,6 +53,18 @@
 			case "thissubject":
 				showattendance();
 				break;
+			case 'recoverpass':
+				recoverpass();
+				break;
+			case 'changefacultypassword':
+				changefacultypassword();
+				break;
+			case 'changeadminpassword':
+				changeadminpassword();
+				break;
+			case 'endofsession':
+				endofsession();
+				break;
 			default:
 				echo "<p class='alert alert-danger'>Something went wrong</p>";
 				break;

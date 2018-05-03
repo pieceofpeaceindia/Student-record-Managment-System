@@ -645,7 +645,7 @@
 		$name = mysqli_real_escape_string($conn, $_POST["adminusername"]);
 		$pass = mysqli_real_escape_string($conn, $_POST["adminpassword"]);
 		$options = [
-		    'cost' => 10,
+		    'cost' => 12,
 		];
 		$hash = password_hash($pass, PASSWORD_BCRYPT, $options);
 		// echo $hash;
@@ -671,7 +671,7 @@
 		$name = mysqli_real_escape_string($conn, $_POST["faultyusername"]);
 		$pass = mysqli_real_escape_string($conn, $_POST["facultypassword"]);
 		$options = [
-		    'cost' => 10,
+		    'cost' => 12,
 		];
 		$hash = password_hash($pass, PASSWORD_BCRYPT, $options);
 		// echo $hash;
@@ -689,5 +689,142 @@
 		} else {
 			echo 'Invalid password.';
 		}
+	}
+
+	function recoverpass(){
+		global $conn;
+		$username = mysqli_real_escape_string($conn, $_POST["username"]);
+		$emailid = mysqli_real_escape_string($conn, $_POST["useremail"]);
+		$uniquecode=md5(uniqid(rand()));
+		$hash=base64_encode($uniquecode);
+		// $hash = password_hash($uniquecode, PASSWORD_BCRYPT, $options);
+		// die($hash);
+		$checkexistance ="SELECT * FROM facultydetails, admincredentials
+						WHERE facultydetails.emailid='$emailid' OR facultydetails.username='$username' 
+								OR admincredentials.adminemail='$emailid' OR admincredentials.adminid='$username' " ;
+		// var_dump($checkexistance);
+		if (mysqli_query($conn,$checkexistance)){
+			if ($conn->connect_error) 
+			{
+			    die("Connection failed: " . $conn->connect_error);
+			}else{
+					$count_if_exsist=mysqli_num_rows(mysqli_query($conn,$checkexistance));
+					// var_dump($count_if_exsist);
+					if($count_if_exsist>0)
+					{
+						$store_token="UPDATE admincredentials, facultydetails SET admincredentials.passkey='$uniquecode' WHERE facultydetails.emailid='$emailid' OR facultydetails.username='$username' 
+								OR admincredentials.adminemail='$emailid' OR admincredentials.adminid='$username'";
+						mysqli_query($conn, $store_token);
+						if ($conn->query($store_token) == TRUE){
+							// echo "no prblm";
+							require 'PHPMailer/PHPMailerAutoload.php';
+							$mail = new PHPMailer;
+
+							$mail->isSMTP();
+							$mail->Host = 'smtp.gmail.com';
+							$mail->SMTPAuth = true;
+							$mail->Username = 'vivekhrd330@gmail.com';
+							$mail->Password = '';
+							$mail->SMTPSecure = 'tls';
+
+							$mail->From = 'vivekhrd330@gmail.com';
+							$mail->FromName = 'Vivek Kumar Gupta';
+							$mail->addAddress($emailid,$username );
+
+							$mail->addReplyTo('vivekhrd330@gmail.com', 'Vivek');
+
+							$mail->WordWrap = 50;
+							$mail->isHTML(true);
+
+							$mail->Subject = 'Please verify your account';
+							$mail->Body    = '<a href="http://localhost/majorproject/recover.php?passkey='.$hash.'"> Click Here </a> to verify your email id and recover your password';
+
+							if(!$mail->send()) {
+							   echo 'Message could not be sent.';
+							   echo 'Mailer Error: ' . $mail->ErrorInfo;
+							   exit;
+							}
+						    echo '<h3 class="alert alert-success">Request has been accepted, Please check your mail</h3>';
+						 }else{
+								// echo "prblm";
+								echo "Error:"  . $store_token . "<br>" . $conn->error;
+							}	
+					}else{
+						echo '<p class="text-danger"><br>Sorry wrong credentials</p>';
+					}
+			}
+		}
+	}
+
+	function changeadminpassword(){
+		global $conn;
+		$oldpassword = mysqli_real_escape_string($conn, $_POST["adminpreviouspass"]);
+		$newpassword = mysqli_real_escape_string($conn, $_POST["adminnewpass"]);
+		$adminid = mysqli_real_escape_string($conn, $_POST["uid"]);
+		// die($adminid);
+		$options = [
+		    'cost' => 12,
+		];
+		$hash = password_hash($oldpassword, PASSWORD_BCRYPT, $options);
+		$anotherhash = password_hash($newpassword, PASSWORD_BCRYPT, $options);
+		// echo $hash;
+		$query = "SELECT * FROM admincredentials
+					WHERE adminid='$adminid'";
+		if (mysqli_query($conn,$query)) {
+			$result=mysqli_query($conn,$query);
+			$row=mysqli_fetch_array($result);
+			$strdpass = $row["adminpass"];
+		}
+		if (password_verify($oldpassword, $strdpass)) {
+			$updatepass =" UPDATE admincredentials SET adminpass='$anotherhash'
+						   WHERE  adminid='$adminid'";
+			if (mysqli_query($conn,$updatepass)) {
+				echo '<p class="text-success">Password Changed Successfully</p>';
+			}else{
+				echo '<p class="text-warning">something went wrong try again later</p>';
+			}
+		} else {
+			echo '<p class="text-danger">Your old password is wrong</p>';
+		}
+	}
+
+	function changefacultypassword(){
+		global $conn;
+		$oldpassword = mysqli_real_escape_string($conn, $_POST["facultypreviouspass"]);
+		$newpassword = mysqli_real_escape_string($conn, $_POST["facultynewpass"]);
+		$facultyid = mysqli_real_escape_string($conn, $_POST["facultyid"]);
+		// die($adminid);
+		$options = [
+		    'cost' => 12,
+		];
+		$hash = password_hash($oldpassword, PASSWORD_BCRYPT, $options);
+		$anotherhash = password_hash($newpassword, PASSWORD_BCRYPT, $options);
+		// echo $hash;
+		$query = "SELECT * FROM facultydetails
+					WHERE id='$facultyid'";
+		if (mysqli_query($conn,$query)) {
+			$result=mysqli_query($conn,$query);
+			$row=mysqli_fetch_array($result);
+			$strdpass = $row["facultypassword"];
+		}
+		if (password_verify($oldpassword, $strdpass)) {
+			$updatepass =" UPDATE facultydetails SET facultypassword='$anotherhash'
+						   WHERE  id='$facultyid'";
+			if (mysqli_query($conn,$updatepass)) {
+				echo '<p class="text-success">Paswword Changed Successfully</p>';
+			}else{
+				echo '<p class="text-warning">something went wrong try again later</p>';
+			}
+		} else {
+			echo '<p class="text-danger">Your old password is wrong</p>';
+		}
+	}
+
+	function passwordrecover(){
+		global $conn;
+	}
+
+	function endofsession(){
+		echo '<p class="text-warning"> Academic session is declared to be end, please register new students</p>';
 	}
 ?>
